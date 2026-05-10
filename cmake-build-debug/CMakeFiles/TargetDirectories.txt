@@ -1,0 +1,3 @@
+C:/Nauka/IV/AiZO/P/1_sort/cmake-build-debug/CMakeFiles/1_sort.dir
+C:/Nauka/IV/AiZO/P/1_sort/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Nauka/IV/AiZO/P/1_sort/cmake-build-debug/CMakeFiles/rebuild_cache.dir
