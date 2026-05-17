@@ -1,7 +1,7 @@
 #include "SorTable.h"
 
-#include <array>
 #include <iostream>
+#include <sstream>
 
 template<typename T>
 SorTable<T>::SorTable(int max_size, T *tab): size(max_size), array(new T[max_size]) {
@@ -23,8 +23,22 @@ SorTable<T>::~SorTable() {
 }
 
 template<typename T>
-SorTable<T> SorTable<T>::clone() {
+SorTable<T> * SorTable<T>::clone() {
     return new SorTable(size, array);
+}
+
+template<typename T>
+string SorTable<T>::getType() const {
+    return typeid(T).name();
+}
+
+template<typename T>
+string SorTable<T>::toString() const {
+    std::stringstream ss;
+    for (int i = 0; i < size; i++) {
+        ss << array[i] << "\t";
+    }
+    return ss.str();
 }
 
 template<typename T>
@@ -32,11 +46,32 @@ void SorTable<T>::print() const {
     for (int i = 0; i < size; i++) {
         std::cout << array[i] << "\t";
     }
+    std::cout << std::endl;
 }
 
 template<typename T>
-void SorTable<T>::copy(T *tab) {
+bool SorTable<T>::equals(const SorTable<T> *sort) const {
+    bool result = true;
+    if (size != sort->size) result &= false;
+    else {
+        for (int i = 0; i < size; i++) {
+            if (array[i] != sort->array[i]) {
+                result &= false;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+template<typename T>
+void SorTable<T>::copy(T *tab) const {
     for(int i = 0; i < this->size; i++) {
         array[i] = tab[i];
     }
 }
+
+template class SorTable<int>;
+template class SorTable<char>;
+template class SorTable<float>;
+template class SorTable<double>;

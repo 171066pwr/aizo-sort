@@ -10,13 +10,12 @@ public:
     TableGenerator(int percentSorted, bool ascending);
 
     void populateInt(SorTable<int> sortable);
-    SorTable<int> generateIntTable(int size);
+    SorTable<int> * generateIntTable(int size);
+
+    SorTable<double> * generateDoubleTable(int size);
 private:
     int percentSorted;
     bool ascending;
-
-    template <typename T>
-    void populateSorTable(SorTable<T> sortable);
 
     int getRandomInt();
 };

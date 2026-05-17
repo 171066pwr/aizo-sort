@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="1_sort_ext" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="/c &quot;start cmd.exe @cmd /c &quot;1_sort.exe&quot;&quot;" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$CMakeCurrentBuildDir$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tests" TARGET_NAME="1_sort" CONFIG_NAME="Debug" RUN_PATH="$PROJECT_DIR$/../../../../../Windows/System32/cmd.exe">
+    <method v="2">
+      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

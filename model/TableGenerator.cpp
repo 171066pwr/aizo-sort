@@ -15,12 +15,23 @@ TableGenerator::TableGenerator(int percentSorted = 100, bool ascending = true): 
 }
 
 void TableGenerator::populateInt(SorTable<int> sortable) {
+    for (int i = 0; i < sortable.size; i++) {
+        sortable.array[i] = getRandomInt();
+    }
 }
 
-SorTable<int> TableGenerator::generateIntTable(int size) {
-    SorTable<int> generated = SorTable<int>(size);
+SorTable<int> * TableGenerator::generateIntTable(int size) {
+    SorTable<int> * generated = new SorTable<int>(size);
     for (int i = 0; i < size; i++) {
-        generated.array[i] = getRandomInt();
+        generated->array[i] = getRandomInt();
+    }
+    return generated;
+}
+
+SorTable<double> * TableGenerator::generateDoubleTable(int size) {
+    SorTable<double> * generated = new SorTable<double>(size);
+    for (int i = 0; i < size; i++) {
+        generated->array[i] = getRandomInt();
     }
     return generated;
 }
@@ -28,12 +39,3 @@ SorTable<int> TableGenerator::generateIntTable(int size) {
 int TableGenerator::getRandomInt() {
     return rand();
 }
-
-template<typename T>
-void TableGenerator::populateSorTable(SorTable<T> sortable) {
-    // for (int i = 0; i < sortable.size(); i++) {
-    //     sortable.array[i] = getRandomInt();
-    // }
-
-}
-
