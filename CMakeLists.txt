@@ -20,6 +20,7 @@ set(SOURCE_FILES main.cpp
         model/sorters/QuickSorter.h
         model/sorters/InsertionSorter.h
         model/sorters/HeapSorter.h
+        model/sorters/ShellSorter.h
 )
 
 add_executable(1_sort ${SOURCE_FILES})
@@ -42,6 +43,7 @@ set(TEST_FILES test/MainTest.cpp
         model/SingleResult.h
         model/sorters/QuickSorter.h
         model/sorters/HeapSorter.h
+        model/sorters/ShellSorter.h
 )
 
 add_executable(Tests ${TEST_FILES})

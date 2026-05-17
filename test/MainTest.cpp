@@ -8,6 +8,7 @@
 #include "../model/sorters/HeapSorter.h"
 #include "../model/sorters/InsertionSorter.h"
 #include "../model/sorters/QuickSorter.h"
+#include "../model/sorters/ShellSorter.h"
 
 class SorTableIO;
 using namespace std;
@@ -98,9 +99,10 @@ void sortCheckTest() {
 }
 
 void basicSortersTest() {
-    Logger::title("QuickSort test");
     TableGenerator tableGenerator = TableGenerator();
-    SorTable<int> * sorTable = tableGenerator.generateIntTable(10);
+    SorTable<int> * sorTable = tableGenerator.generateIntTable(100000);
+
+    Logger::title("Quick Sort test");
     QuickSorter<int> qs = QuickSorter<int>();
     BaseSorter<int> * bsorter = &qs;
     SorTable<int> * copy = sorTable->clone();
@@ -108,20 +110,26 @@ void basicSortersTest() {
     assertTrue(checkSort(*copy), "QuickSort sorted array");
     delete copy;
 
+    Logger::title("Insertion Sort test");
     copy = sorTable->clone();
     InsertionSorter<int> is = InsertionSorter<int>();
     bsorter = &is;
     bsorter->sort(*copy);
     assertTrue(checkSort(*copy), "Insertion sorted array");
 
+    Logger::title("Heap Sort test");
     copy = sorTable->clone();
     HeapSorter<int> hs = HeapSorter<int>();
     bsorter = &hs;
     bsorter->sort(*copy);
     assertTrue(checkSort(*copy), "Heap sorted array");
 
-    sorTable->print();
-    copy->print();
+    Logger::title("Shell Sort test");
+    copy = sorTable->clone();
+    ShellSorter<int> ss = ShellSorter<int>();
+    bsorter = &ss;
+    bsorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Shell sorted array");
     delete copy;
     delete sorTable;
 }

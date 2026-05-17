@@ -8,6 +8,7 @@ class BaseSorter {
 public:
     virtual void sort(SorTable<T> & sorTable) = 0;
     virtual ~BaseSorter() = default;
+
 protected:
     void swap(SorTable<T> & sorTable, int i, int j) {
         T temp = sorTable[i];
@@ -15,5 +16,6 @@ protected:
         sorTable[j] = temp;
     }
 };
+
 
 #endif //BASESORTER_H

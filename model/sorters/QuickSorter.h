@@ -8,6 +8,7 @@ public:
     void sort(SorTable<T> & sorTable) override {
         qsort(sorTable, 0, sorTable.size-1);
     }
+
 private:
     void qsort(SorTable<T> &sorTable, int left, int right) {
         if(left<right)
