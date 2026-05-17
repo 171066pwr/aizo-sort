@@ -1,8 +1,8 @@
 # ninja log v6
-28	861	8007245804400462	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
+8	843	8007363073427866	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
 8	884	8007235745937234	CMakeFiles/Tests.dir/model/SorTable.cpp.obj	50c10dbca29e51ac
 15	791	8005129907459591	CMakeFiles/1_sort.dir/model/SorTable.cpp.obj	50664e2c12ae08f1
-3	291	8007304150174197	build.ninja	2eec232e440d43ba
+4	307	8007464649079847	build.ninja	2eec232e440d43ba
 21	606	8005129907519527	CMakeFiles/1_sort.dir/model/TableGenerator.cpp.obj	31ccc45125b9df18
 27	566	8005126710002327	CMakeFiles/1_sort.dir/io/SorTableIO.cpp.obj	e069310ca674d745
 8	692	8005136036488262	CMakeFiles/1_sort.dir/main.cpp.obj	19f57cfcd5f37bde
@@ -10,7 +10,7 @@
 692	865	8005136043329987	1_sort.exe	dd95f5b48295aea6
 35	808	8007235149713746	CMakeFiles/Tests.dir/model/TableGenerator.cpp.obj	20e21d7eec0d7624
 42	937	8007235149774997	CMakeFiles/Tests.dir/io/SorTableIO.cpp.obj	67622c268ab16c7c
-861	1049	8007245812729710	Tests.exe	2a4632e5561153f4
+844	1022	8007363081775888	Tests.exe	475ab48fbfcbcf1b
 13	1140	8001510858863721	CMakeFiles/Tests.dir/utils/NumberUtils.cpp.obj	1be260473189966d
 17	974	8004652205310597	CMakeFiles/Tests.dir/utils/BasicIO.cpp.obj	b177a31374be5ab9
 10	1194	8004648647459654	CMakeFiles/1_sort.dir/utils/BasicIO.cpp.obj	3e42cc6fa81fdccc
@@ -18,23 +18,8 @@
 36	937	8005121939988513	CMakeFiles/1_sort.dir/io/BasicIO.cpp.obj	b1ee67423f836b56
 7	680	8006461182448309	CMakeFiles/Tests.dir/io/BasicIO.cpp.obj	24eacd44df4aa5
 48	724	8007235149836376	CMakeFiles/Tests.dir/model/BaseSorter.cpp.obj	3f1fecc87a33c17c
-19	514	8007312904844696	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-8	910	8007312904745062	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
+16	537	8007350718608904	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
 8	1290	8007314527513767	CMakeFiles/Tests.dir/model/SingleResult.cpp.obj	818f7e7ce0863fad
-1292	1478	8007314540357781	Tests.exe	d02e689d059c4106
-15	518	8007324162810352	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-14	510	8007324735070702	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-8	844	8007324735018436	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
-17	496	8007325443853264	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-9	846	8007325443766572	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
-15	569	8007325720488202	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-15	510	8007325977956163	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-9	856	8007325977896124	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
-9	510	8007328157124781	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-14	520	8007328865750073	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-8	841	8007328865689703	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
-14	467	8007329132614040	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-9	836	8007329132562420	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
-14	480	8007330582977026	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
-8	840	8007330582917407	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
-10	457	8007330945277591	CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj	8166cfa3a840aeb7
+14	499	8007442474813956	CMakeFiles/Tests.dir/model/sorters/HeapSorter.cpp.obj	54abb014b4362d3b
+7	839	8007464754987126	CMakeFiles/Tests.dir/test/MainTest.cpp.obj	e4cc8d9c04fbf6ca
+840	1024	8007464763309072	Tests.exe	475ab48fbfcbcf1b

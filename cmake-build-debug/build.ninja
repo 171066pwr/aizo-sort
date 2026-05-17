@@ -91,12 +91,6 @@ build CMakeFiles/1_sort.dir/model/SingleResult.cpp.obj: CXX_COMPILER__1_sort_uns
   OBJECT_DIR = CMakeFiles\1_sort.dir
   OBJECT_FILE_DIR = CMakeFiles\1_sort.dir\model
 
-build CMakeFiles/1_sort.dir/model/sorters/QuickSorter.cpp.obj: CXX_COMPILER__1_sort_unscanned_Debug C$:/Nauka/IV/AiZO/P/1_sort/model/sorters/QuickSorter.cpp || cmake_object_order_depends_target_1_sort
-  DEP_FILE = CMakeFiles\1_sort.dir\model\sorters\QuickSorter.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\1_sort.dir
-  OBJECT_FILE_DIR = CMakeFiles\1_sort.dir\model\sorters
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target 1_sort
@@ -105,7 +99,7 @@ build CMakeFiles/1_sort.dir/model/sorters/QuickSorter.cpp.obj: CXX_COMPILER__1_s
 #############################################
 # Link the executable 1_sort.exe
 
-build 1_sort.exe: CXX_EXECUTABLE_LINKER__1_sort_Debug CMakeFiles/1_sort.dir/main.cpp.obj CMakeFiles/1_sort.dir/model/SorTable.cpp.obj CMakeFiles/1_sort.dir/model/TableGenerator.cpp.obj CMakeFiles/1_sort.dir/utils/NumberUtils.cpp.obj CMakeFiles/1_sort.dir/io/BasicIO.cpp.obj CMakeFiles/1_sort.dir/io/SorTableIO.cpp.obj CMakeFiles/1_sort.dir/model/SingleResult.cpp.obj CMakeFiles/1_sort.dir/model/sorters/QuickSorter.cpp.obj
+build 1_sort.exe: CXX_EXECUTABLE_LINKER__1_sort_Debug CMakeFiles/1_sort.dir/main.cpp.obj CMakeFiles/1_sort.dir/model/SorTable.cpp.obj CMakeFiles/1_sort.dir/model/TableGenerator.cpp.obj CMakeFiles/1_sort.dir/utils/NumberUtils.cpp.obj CMakeFiles/1_sort.dir/io/BasicIO.cpp.obj CMakeFiles/1_sort.dir/io/SorTableIO.cpp.obj CMakeFiles/1_sort.dir/model/SingleResult.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\1_sort.dir
@@ -166,12 +160,6 @@ build CMakeFiles/Tests.dir/model/SingleResult.cpp.obj: CXX_COMPILER__Tests_unsca
   OBJECT_DIR = CMakeFiles\Tests.dir
   OBJECT_FILE_DIR = CMakeFiles\Tests.dir\model
 
-build CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj: CXX_COMPILER__Tests_unscanned_Debug C$:/Nauka/IV/AiZO/P/1_sort/model/sorters/QuickSorter.cpp || cmake_object_order_depends_target_Tests
-  DEP_FILE = CMakeFiles\Tests.dir\model\sorters\QuickSorter.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Tests.dir
-  OBJECT_FILE_DIR = CMakeFiles\Tests.dir\model\sorters
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Tests
@@ -180,7 +168,7 @@ build CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj: CXX_COMPILER__Test
 #############################################
 # Link the executable Tests.exe
 
-build Tests.exe: CXX_EXECUTABLE_LINKER__Tests_Debug CMakeFiles/Tests.dir/test/MainTest.cpp.obj CMakeFiles/Tests.dir/model/SorTable.cpp.obj CMakeFiles/Tests.dir/model/TableGenerator.cpp.obj CMakeFiles/Tests.dir/utils/NumberUtils.cpp.obj CMakeFiles/Tests.dir/io/BasicIO.cpp.obj CMakeFiles/Tests.dir/io/SorTableIO.cpp.obj CMakeFiles/Tests.dir/model/SingleResult.cpp.obj CMakeFiles/Tests.dir/model/sorters/QuickSorter.cpp.obj
+build Tests.exe: CXX_EXECUTABLE_LINKER__Tests_Debug CMakeFiles/Tests.dir/test/MainTest.cpp.obj CMakeFiles/Tests.dir/model/SorTable.cpp.obj CMakeFiles/Tests.dir/model/TableGenerator.cpp.obj CMakeFiles/Tests.dir/utils/NumberUtils.cpp.obj CMakeFiles/Tests.dir/io/BasicIO.cpp.obj CMakeFiles/Tests.dir/io/SorTableIO.cpp.obj CMakeFiles/Tests.dir/model/SingleResult.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Tests.dir

@@ -5,6 +5,8 @@
 #include "../io/BasicIO.h"
 #include "../io/SorTableIO.h"
 #include "../model/sorters/BaseSorter.h"
+#include "../model/sorters/HeapSorter.h"
+#include "../model/sorters/InsertionSorter.h"
 #include "../model/sorters/QuickSorter.h"
 
 class SorTableIO;
@@ -16,7 +18,7 @@ void basicIOTest();
 void basicModelTest();
 void basicSerializationTest();
 void sortCheckTest();
-void quickSortTest();
+void basicSortersTest();
 
 template<typename T>
 bool checkSort(SorTable<T> s);
@@ -26,6 +28,7 @@ int main () {
     basicModelTest();
     basicSerializationTest();
     sortCheckTest();
+    basicSortersTest();
     system("pause");
 }
 
@@ -94,13 +97,33 @@ void sortCheckTest() {
     delete cTable;
 }
 
-void quickSortTest() {
+void basicSortersTest() {
     Logger::title("QuickSort test");
     TableGenerator tableGenerator = TableGenerator();
-    SorTable<int> * sorTable = tableGenerator.generateIntTable(100);
+    SorTable<int> * sorTable = tableGenerator.generateIntTable(10);
     QuickSorter<int> qs = QuickSorter<int>();
     BaseSorter<int> * bsorter = &qs;
+    SorTable<int> * copy = sorTable->clone();
+    bsorter->sort(*copy);
+    assertTrue(checkSort(*copy), "QuickSort sorted array");
+    delete copy;
 
+    copy = sorTable->clone();
+    InsertionSorter<int> is = InsertionSorter<int>();
+    bsorter = &is;
+    bsorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Insertion sorted array");
+
+    copy = sorTable->clone();
+    HeapSorter<int> hs = HeapSorter<int>();
+    bsorter = &hs;
+    bsorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Heap sorted array");
+
+    sorTable->print();
+    copy->print();
+    delete copy;
+    delete sorTable;
 }
 
 void assertTrue(bool assertion, const string &msg) {
