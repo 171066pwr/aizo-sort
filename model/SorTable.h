@@ -12,18 +12,22 @@ public:
     typedef T baseType;
     T value;
     T * const array;
-    const int size;
+    const int maxSize;
+    int currentSize = 0;
 
+
+    SorTable(int max_size, int current_size, T * tab);
     SorTable(int max_size, T * tab);
     SorTable(int max_size);
     SorTable(const SorTable & sort);
     ~SorTable();
     SorTable * clone();
 
+    bool equals(const SorTable * sort) const;
+    void add(T value);
     string getType() const;
     string toString() const;
     void print() const;
-    bool equals(const SorTable * sort) const;
 
     T const& operator [](std::size_t n) const
     {

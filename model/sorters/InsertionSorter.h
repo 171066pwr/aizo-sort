@@ -7,7 +7,7 @@ template <typename T>
 class InsertionSorter: public BaseSorter<T> {
 public:
     void sort(SorTable<T> & sorTable) override {
-        for(int i=0; i< sorTable.size; i++){
+        for(int i=0; i< sorTable.currentSize; i++){
             int j=0;
             while(sorTable[i]>sorTable[j] && j<i){
                 j++;

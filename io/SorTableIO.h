@@ -62,7 +62,7 @@ public:
         T value;
         for(int i = 0; i < size; i++) {
             io.istream >> value;
-            sortable[i] = value;
+            sortable.add(value);
             if(std::cin.fail() || std::cin.bad())
                 throw InvalidFileException(filename);
         }
@@ -73,8 +73,8 @@ public:
     string toString(SorTable<T> sortable) {
         stringstream ss;
         ss << sortable.getType() << endl;
-        ss << sortable.size;
-        for(int i = 0; i < sortable.size; i++) {
+        ss << sortable.currentSize;
+        for(int i = 0; i < sortable.currentSize; i++) {
             ss << endl << sortable.array[i];
         }
         return ss.str();

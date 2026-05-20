@@ -4,16 +4,21 @@
 #include <sstream>
 
 template<typename T>
-SorTable<T>::SorTable(int max_size, T *tab): size(max_size), array(new T[max_size]) {
+SorTable<T>::SorTable(int max_size, int current_size, T *tab): maxSize(max_size), currentSize(current_size), array(new T[max_size]) {
     copy(tab);
 }
 
 template<typename T>
-SorTable<T>::SorTable(int max_size): size(max_size), array(new T[max_size]) {
+SorTable<T>::SorTable(int max_size, T *tab): maxSize(max_size), currentSize(max_size), array(new T[max_size]) {
+    copy(tab);
 }
 
 template<typename T>
-SorTable<T>::SorTable(const SorTable & sort): size(sort.size), array(new T[sort.size]) {
+SorTable<T>::SorTable(int max_size): maxSize(max_size), array(new T[max_size]) {
+}
+
+template<typename T>
+SorTable<T>::SorTable(const SorTable & sort): maxSize(sort.maxSize), currentSize(sort.currentSize), array(new T[sort.maxSize]) {
     copy(sort.array);
 }
 
@@ -24,37 +29,15 @@ SorTable<T>::~SorTable() {
 
 template<typename T>
 SorTable<T> * SorTable<T>::clone() {
-    return new SorTable(size, array);
-}
-
-template<typename T>
-string SorTable<T>::getType() const {
-    return typeid(T).name();
-}
-
-template<typename T>
-string SorTable<T>::toString() const {
-    std::stringstream ss;
-    for (int i = 0; i < size; i++) {
-        ss << array[i] << "\t";
-    }
-    return ss.str();
-}
-
-template<typename T>
-void SorTable<T>::print() const {
-    for (int i = 0; i < size; i++) {
-        std::cout << array[i] << "\t";
-    }
-    std::cout << std::endl;
+    return new SorTable(maxSize, currentSize, array);
 }
 
 template<typename T>
 bool SorTable<T>::equals(const SorTable<T> *sort) const {
     bool result = true;
-    if (size != sort->size) result &= false;
+    if (currentSize != sort->currentSize) result &= false;
     else {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < currentSize; i++) {
             if (array[i] != sort->array[i]) {
                 result &= false;
                 break;
@@ -65,8 +48,37 @@ bool SorTable<T>::equals(const SorTable<T> *sort) const {
 }
 
 template<typename T>
+void SorTable<T>::add(T value) {
+    if(currentSize < maxSize) {}
+    array[currentSize] = value;
+    currentSize++;
+}
+
+template<typename T>
+string SorTable<T>::getType() const {
+    return typeid(T).name();
+}
+
+template<typename T>
+string SorTable<T>::toString() const {
+    std::stringstream ss;
+    for (int i = 0; i < currentSize; i++) {
+        ss << array[i] << "\t";
+    }
+    return ss.str();
+}
+
+template<typename T>
+void SorTable<T>::print() const {
+    for (int i = 0; i < currentSize; i++) {
+        std::cout << array[i] << "\t";
+    }
+    std::cout << std::endl;
+}
+
+template<typename T>
 void SorTable<T>::copy(T *tab) const {
-    for(int i = 0; i < this->size; i++) {
+    for(int i = 0; i < this->currentSize; i++) {
         array[i] = tab[i];
     }
 }

@@ -7,8 +7,8 @@ template<typename T>
 class HeapSorter : public BaseSorter<T> {
 public:
     void sort(SorTable<T> &sorTable) override {
-        heapify(sorTable, sorTable.size - 1);
-        int end = sorTable.size - 1;
+        heapify(sorTable, sorTable.currentSize - 1);
+        int end = sorTable.currentSize - 1;
         while (end > 0) {
             this->swap(sorTable, end, 0);
             siftDown(sorTable, 0, end - 1);

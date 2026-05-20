@@ -15,15 +15,15 @@ TableGenerator::TableGenerator(int percentSorted = 100, bool ascending = true): 
 }
 
 void TableGenerator::populateInt(SorTable<int> sortable) {
-    for (int i = 0; i < sortable.size; i++) {
-        sortable.array[i] = getRandomInt();
+    for (int i = 0; i < sortable.maxSize; i++) {
+        sortable.add(getRandomInt());
     }
 }
 
 SorTable<int> * TableGenerator::generateIntTable(int size) {
     SorTable<int> * generated = new SorTable<int>(size);
     for (int i = 0; i < size; i++) {
-        generated->array[i] = getRandomInt();
+        generated->add(getRandomInt());
     }
     return generated;
 }
@@ -31,7 +31,7 @@ SorTable<int> * TableGenerator::generateIntTable(int size) {
 SorTable<double> * TableGenerator::generateDoubleTable(int size) {
     SorTable<double> * generated = new SorTable<double>(size);
     for (int i = 0; i < size; i++) {
-        generated->array[i] = getRandomInt();
+        generated->add(getRandomInt());
     }
     return generated;
 }

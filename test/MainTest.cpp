@@ -100,15 +100,30 @@ void sortCheckTest() {
 
 void basicSortersTest() {
     TableGenerator tableGenerator = TableGenerator();
-    SorTable<int> * sorTable = tableGenerator.generateIntTable(100000);
+    SorTable<int> * sorTable = tableGenerator.generateIntTable(20000);
 
     Logger::title("Quick Sort test");
-    QuickSorter<int> qs = QuickSorter<int>();
-    BaseSorter<int> * bsorter = &qs;
     SorTable<int> * copy = sorTable->clone();
-    bsorter->sort(*copy);
+    QuickSorter<int> qs = QuickSorter<int>(PivotPosition::RANDOM);
+    BaseSorter<int> * bsorter = &qs;
+    bsorter->sort(*copy);                // just checking inheritance
     assertTrue(checkSort(*copy), "QuickSort sorted array");
-    delete copy;
+    SorTable<int> * sorted = copy->clone();
+
+    Logger::title("Heap Sort test");
+    copy = sorTable->clone();
+    HeapSorter<int>().sort(*copy);
+    assertTrue(checkSort(*copy), "Heap sorted array");
+    assertTrue(copy->equals(sorted), "Heap sort data validation");
+    sorted = copy->clone();
+
+    Logger::title("Shell Sort test");
+    copy = sorTable->clone();
+    ShellSorter<int> ss = ShellSorter<int>(GapSequence::KNUTH);
+    ss.sort(*copy);
+    assertTrue(checkSort(*copy), "Shell sorted array");
+    assertTrue(copy->equals(sorted), "Shell sort data validation");
+    sorted = copy->clone();
 
     Logger::title("Insertion Sort test");
     copy = sorTable->clone();
@@ -116,22 +131,7 @@ void basicSortersTest() {
     bsorter = &is;
     bsorter->sort(*copy);
     assertTrue(checkSort(*copy), "Insertion sorted array");
-
-    Logger::title("Heap Sort test");
-    copy = sorTable->clone();
-    HeapSorter<int> hs = HeapSorter<int>();
-    bsorter = &hs;
-    bsorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Heap sorted array");
-
-    Logger::title("Shell Sort test");
-    copy = sorTable->clone();
-    ShellSorter<int> ss = ShellSorter<int>();
-    bsorter = &ss;
-    bsorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Shell sorted array");
-    delete copy;
-    delete sorTable;
+    assertTrue(copy->equals(sorted), "Insertion sort data validation");
 }
 
 void assertTrue(bool assertion, const string &msg) {
@@ -142,7 +142,7 @@ void assertTrue(bool assertion, const string &msg) {
 
 template<typename T>
 bool checkSort(SorTable<T> s) {
-    for (int i = 1; i < s.size; ++i) {
+    for (int i = 1; i < s.currentSize; ++i) {
         if (s[i-1] > s[i])
             return false;
     }
