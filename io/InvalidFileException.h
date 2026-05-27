@@ -2,7 +2,6 @@
 #define INVALIDFILEEXCEPTION_H
 
 
-
 /* Util types and methods */
 class InvalidFileException : public std::exception {
 private: string message;
@@ -16,7 +15,6 @@ public:
         return message.c_str();
     }
 };
-
 
 
 #endif //INVALIDFILEEXCEPTION_H

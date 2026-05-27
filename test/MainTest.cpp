@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../utils/Logger.h"
-#include "../model/TableGenerator.h"
+#include "../model/generator/TableGenerator.h"
 #include "../model/SorTable.h"
 #include "../io/BasicIO.h"
 #include "../io/SorTableIO.h"
@@ -9,6 +9,7 @@
 #include "../model/sorters/InsertionSorter.h"
 #include "../model/sorters/QuickSorter.h"
 #include "../model/sorters/ShellSorter.h"
+#include "../model/sorters/SorterFactory.h"
 
 class SorTableIO;
 using namespace std;
@@ -20,6 +21,7 @@ void basicModelTest();
 void basicSerializationTest();
 void sortCheckTest();
 void basicSortersTest();
+void sorterFactoryTest();
 
 template<typename T>
 bool checkSort(SorTable<T> s);
@@ -30,6 +32,7 @@ int main () {
     basicSerializationTest();
     sortCheckTest();
     basicSortersTest();
+    sorterFactoryTest();
     system("pause");
 }
 
@@ -132,6 +135,17 @@ void basicSortersTest() {
     bsorter->sort(*copy);
     assertTrue(checkSort(*copy), "Insertion sorted array");
     assertTrue(copy->equals(sorted), "Insertion sort data validation");
+}
+
+void sorterFactoryTest() {
+    Logger::title("Sorter factory test");
+    BaseSorter<int> * sorter;
+    sorter = SorterFactory<int>::createSorter(SorterType::HEAP_SORT);
+    sorter = SorterFactory<int>::createSorter(SorterType::QUICK_SORT);
+    sorter = SorterFactory<int>::createSorter(SorterType::QUICK_SORT, PivotPosition::RANDOM);
+    sorter = SorterFactory<int>::createSorter(SorterType::SHELL_SORT);
+    sorter = SorterFactory<int>::createSorter(SorterType::SHELL_SORT, GapSequence::KNUTH);
+    sorter = SorterFactory<int>::createSorter(SorterType::INSERTION_SORT);
 }
 
 void assertTrue(bool assertion, const string &msg) {

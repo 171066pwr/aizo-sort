@@ -3,10 +3,10 @@
 #include "BaseSorter.h"
 
 enum PivotPosition   {
-    LOW = 0,
-    HIGH = 1,
-    CENTER = 2,
-    RANDOM = 3
+    RANDOM = 0,
+    LOW = 1,
+    HIGH = 2,
+    CENTER = 3
 };
 
 template <typename T>
@@ -14,7 +14,7 @@ class QuickSorter: public BaseSorter<T> {
     class BasePivotProvider;
 public:
 const BasePivotProvider * pivotProvider;
-    QuickSorter(PivotPosition pivotPosition) {
+    QuickSorter(PivotPosition pivotPosition = RANDOM) {
         switch(pivotPosition) {
             case LOW:
                 pivotProvider = new LeftPivotProvider;
@@ -30,6 +30,10 @@ const BasePivotProvider * pivotProvider;
                 pivotProvider = new RandomPivotProvider;
         }
     };
+
+    QuickSorter(int pivotPosition) {
+        QuickSorter((PivotPosition) pivotPosition);
+    }
 
     void sort(SorTable<T> & sorTable) override {
         qsort(sorTable, 0, sorTable.currentSize-1);

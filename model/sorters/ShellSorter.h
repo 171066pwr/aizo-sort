@@ -14,7 +14,7 @@ class ShellSorter: public BaseSorter<T> {
 public:
     const BaseGapSequence * sequence;
 
-    ShellSorter(GapSequence sequenceType) {
+    ShellSorter(GapSequence sequenceType = KNUTH) {
         switch (sequenceType) {
             case SHELL:
                 sequence = new ShellSequence();
@@ -23,6 +23,10 @@ public:
             default:
                 sequence = new KnuthSequence();
         }
+    }
+
+    ShellSorter(int sequenceType) {
+        ShellSorter((GapSequence) sequenceType);
     }
 
     void sort(SorTable<T> & sorTable) override {

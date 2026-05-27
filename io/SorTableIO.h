@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include "../model/SorTable.h"
+#include "../model/DataType.h"
 #include "BasicIO.h"
 #include "InvalidFileException.h"
 
@@ -11,35 +12,27 @@ using namespace std;
 
 class SorTableIO {
 public:
-    enum TableType {
-        INT,
-        CHAR,
-        FLOAT,
-        DOUBLE,
-        UNSUPPORTED
-    };
-
-    SorTableIO::TableType parseType(string filename) {
+    DataType parseType(string filename) {
         try{
-            TableType type;
+            DataType type;
             BasicIO io(filename);
             string line = io.readLine();
             char c = line[0];
             switch (c) {
-                case 'i': type = TableType::INT; break;
-                case 'c': type = TableType::CHAR; break;
-                case 'f': type = TableType::FLOAT; break;
-                case 'd': type = TableType::DOUBLE; break;
+                case 'i': type = INT; break;
+                case 'c': type = CHAR; break;
+                case 'f': type = FLOAT; break;
+                case 'd': type = DOUBLE; break;
                 default: {
                     if(c >= '0' && c <= '9') {
-                        type = TableType::INT; break;           //type not present - default INT
+                        type = INT; break;           //type not present - default INT
                     }
-                    type = TableType::UNSUPPORTED;
+                    type = UNSUPPORTED;
                 }
             }
             return type;
         }  catch(...) {
-            return TableType::UNSUPPORTED;
+            return UNSUPPORTED;
         }
     }
 
