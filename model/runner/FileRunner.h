@@ -11,7 +11,7 @@ class FileRunner: public BaseRunner {
 
 public:
     FileRunner(string filename, SorterConfig config, int samples);
-    map<SorterConfig,BatchResult> run() override;
+    map<SorterConfig, map<int, BatchResult>> run() override;
 };
 
 

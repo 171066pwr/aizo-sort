@@ -3,10 +3,10 @@
 
 
 struct DatasetConfig {
-    int initial_size;
-    int increment;
-    int steps;
-    int samples;
+    int initial_size;       // starting dataset size
+    int increment;          // size increment step
+    int steps;              // number of steps
+    int samples;            // number of samples in each step
 };
 
 

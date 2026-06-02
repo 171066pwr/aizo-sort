@@ -52,19 +52,23 @@ void basicIOTest() {
 
 void basicModelTest() {
     Logger::title("Basic model test");
-    TableGenerator tableGenerator = TableGenerator();
-    SorTable<int> * sorTable = tableGenerator.generateIntTable(10);
+    TableGenerator tableGenerator = TableGenerator<int>();
+    SorTable<int> * sorTable = tableGenerator.generateTable(10);
     SorTable<int> * sorTable2 = sorTable->clone();
     const SorTable<int> &ref = *sorTable;
     SorTable<int> * sorTable3 = new SorTable<int>(ref);
     assertTrue(sorTable->equals(sorTable2), "sorTable == sorTable2");
     assertTrue(sorTable2->equals(sorTable3), "sorTable2 == sorTable3");
     sorTable->print();
-    delete sorTable;
     sorTable2->print();
-    delete sorTable2;
     sorTable3->print();
-    delete sorTable3;
+    Logger::title("Reversing table test");
+    int tab[] = {0, 1, 2, 3, 4, 5};
+    int reversed[] = {5, 4, 3, 2, 1, 0};
+    sorTable = new SorTable<int>(6, tab);
+    sorTable2 = new SorTable<int>(6, reversed);
+    sorTable->reverseOrder();
+    assertTrue(sorTable->equals(sorTable2), "reversed order");
 }
 
 void basicSerializationTest() {
@@ -102,8 +106,8 @@ void sortCheckTest() {
 }
 
 void basicSortersTest() {
-    TableGenerator tableGenerator = TableGenerator();
-    SorTable<int> * sorTable = tableGenerator.generateIntTable(20000);
+    TableGenerator tableGenerator = TableGenerator<int>();
+    SorTable<int> * sorTable = tableGenerator.generateTable(20000);
 
     Logger::title("Quick Sort test");
     SorTable<int> * copy = sorTable->clone();

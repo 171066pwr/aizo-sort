@@ -4,13 +4,12 @@
 #include "BatchResult.h"
 #include "../config/SorterConfig.h"
 #include <map>
-#include <vector>
 
 using namespace std;
 
 class BaseRunner {
     public:
-        virtual map<SorterConfig,BatchResult> run() = 0;
+        virtual map<SorterConfig, map<int, BatchResult>> run() = 0;
 };
 
 

@@ -10,7 +10,6 @@ set(SOURCE_FILES main.cpp
         utils/NumberUtils.cpp utils/NumberUtils.h utils/Logger.h
         io/BasicIO.cpp
         io/BasicIO.h
-        io/SorTableIO.cpp
         io/SorTableIO.h
         model/Table.h
         io/InvalidFileException.h
@@ -34,6 +33,8 @@ set(SOURCE_FILES main.cpp
         model/runner/FileRunner.cpp
         model/runner/FileRunner.h
         model/runner/SorterArray.h
+        model/generator/BaseGenerator.h
+        model/generator/BaseGenerator.cpp
 )
 
 add_executable(1_sort ${SOURCE_FILES})
@@ -48,7 +49,6 @@ set(TEST_FILES test/MainTest.cpp
         utils/NumberUtils.cpp utils/NumberUtils.h utils/Logger.h
         io/BasicIO.cpp
         io/BasicIO.h
-        io/SorTableIO.cpp
         io/SorTableIO.h
         model/Table.h
         model/sorters/BaseSorter.h
@@ -69,6 +69,8 @@ set(TEST_FILES test/MainTest.cpp
         model/runner/FileRunner.cpp
         model/runner/FileRunner.h
         model/runner/SorterArray.h
+        model/generator/BaseGenerator.h
+        model/generator/BaseGenerator.cpp
 )
 
 add_executable(Tests ${TEST_FILES})

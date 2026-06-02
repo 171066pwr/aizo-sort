@@ -25,6 +25,7 @@ public:
 
     bool equals(const SorTable * sort) const;
     void add(T value);
+    void reverseOrder();
     string getType() const;
     string toString() const;
     void print() const;

@@ -55,6 +55,16 @@ void SorTable<T>::add(T value) {
 }
 
 template<typename T>
+void SorTable<T>::reverseOrder() {
+    T buffer;
+    for (int i = 0, j = currentSize-1; i < j; i++, j--) {
+        buffer = array[i];
+        array[i] = array[j];
+        array[j] = buffer;
+    }
+}
+
+template<typename T>
 string SorTable<T>::getType() const {
     return typeid(T).name();
 }

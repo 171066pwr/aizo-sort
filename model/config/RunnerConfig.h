@@ -11,7 +11,7 @@ using namespace std;
 
 struct RunnerConfig {
     DataType tableType;
-    DatasetConfig generatorConfig;
+    DatasetConfig datasetConfig;
     PreSortMode preSortMode;
     bool displayData;
     vector<SorterConfig> sorterConfigs;
