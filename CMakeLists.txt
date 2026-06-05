@@ -23,7 +23,6 @@ set(SOURCE_FILES main.cpp
         model/runner/Runner.h
         model/runner/BatchResult.h
         model/config/RunnerConfig.h
-        model/DataType.h
         model/config/PreSortMode.h
         model/sorters/SorterFactory.h
         model/config/SorterConfig.h
@@ -34,7 +33,12 @@ set(SOURCE_FILES main.cpp
         model/runner/FileRunner.h
         model/runner/SorterArray.h
         model/generator/BaseGenerator.h
-        model/generator/BaseGenerator.cpp
+        model/runner/RunResult.h
+        model/config/DataTypeConfig.h
+        io/Serializable.h
+        model/config/Printable.h
+        model/config/DisplayDataConfig.h
+        model/config/GlobalConfig.h
 )
 
 add_executable(1_sort ${SOURCE_FILES})
@@ -60,7 +64,6 @@ set(TEST_FILES test/MainTest.cpp
         model/runner/Runner.h
         model/runner/BatchResult.h
         model/config/RunnerConfig.h
-        model/DataType.h
         model/sorters/SorterFactory.h
         model/config/SorterConfig.h
         model/config/DatasetConfig.h
@@ -70,7 +73,12 @@ set(TEST_FILES test/MainTest.cpp
         model/runner/FileRunner.h
         model/runner/SorterArray.h
         model/generator/BaseGenerator.h
-        model/generator/BaseGenerator.cpp
+        model/runner/RunResult.h
+        model/config/DataTypeConfig.h
+        io/Serializable.h
+        model/config/Printable.h
+        model/config/DisplayDataConfig.h
+        model/config/GlobalConfig.h
 )
 
 add_executable(Tests ${TEST_FILES})

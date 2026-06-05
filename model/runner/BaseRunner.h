@@ -1,15 +1,15 @@
 #ifndef BASERUNNER_H
 #define BASERUNNER_H
 
-#include "BatchResult.h"
-#include "../config/SorterConfig.h"
 #include <map>
+
+#include "RunResult.h"
 
 using namespace std;
 
 class BaseRunner {
     public:
-        virtual map<SorterConfig, map<int, BatchResult>> run() = 0;
+        virtual RunResult run() = 0;
 };
 
 

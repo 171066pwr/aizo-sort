@@ -5,20 +5,19 @@
 #include <map>
 
 #include "BaseRunner.h"
-#include "BatchResult.h"
 #include "../config/RunnerConfig.h"
 
 
 class Runner: public BaseRunner {
     template<typename T>
-    map<SorterConfig, std::map<int, BatchResult>> runForType();
+    RunResult runForType();
 
 protected:
     RunnerConfig config;
 
 public:
     Runner(RunnerConfig config);
-    std::map<SorterConfig, std::map<int, BatchResult>> run() override;
+    RunResult run() override;
 };
 
 

@@ -6,11 +6,12 @@
 using namespace std;
 
 class BasicIO {
+    std::string filename;
 public:
-    const std::string filename;
     std::fstream istream;
     std::fstream ostream;
 
+    BasicIO();
     BasicIO(std::string filename, bool trunc = false);
     ~BasicIO();
 

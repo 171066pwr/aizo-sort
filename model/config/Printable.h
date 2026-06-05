@@ -2,11 +2,11 @@
 #define PRINTABLE_H
 
 
+struct Printable {
+    virtual ~Printable() {}
 
-class Printable {
-
+    virtual std::string toString() const = 0;
 };
-
 
 
 #endif //PRINTABLE_H

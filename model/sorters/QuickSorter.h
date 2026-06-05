@@ -17,23 +17,21 @@ const BasePivotProvider * pivotProvider;
     QuickSorter(PivotPosition pivotPosition = RANDOM) {
         switch(pivotPosition) {
             case LOW:
-                pivotProvider = new LeftPivotProvider;
+                pivotProvider = new LeftPivotProvider();
                 break;
             case HIGH:
-                pivotProvider = new RightPivotProvider;
+                pivotProvider = new RightPivotProvider();
                 break;
             case CENTER:
-                pivotProvider = new CenterPivotProvider;
+                pivotProvider = new CenterPivotProvider();
                 break;
             case RANDOM:
             default:
-                pivotProvider = new RandomPivotProvider;
+                pivotProvider = new RandomPivotProvider();
         }
     };
 
-    QuickSorter(int pivotPosition) {
-        QuickSorter((PivotPosition) pivotPosition);
-    }
+    QuickSorter(int pivotPosition): QuickSorter((PivotPosition) pivotPosition) {}
 
     void sort(SorTable<T> & sorTable) override {
         qsort(sorTable, 0, sorTable.currentSize-1);

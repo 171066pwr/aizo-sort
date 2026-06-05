@@ -11,6 +11,7 @@ enum GapSequence {
 template <typename T>
 class ShellSorter: public BaseSorter<T> {
     class BaseGapSequence;
+    InsertionSorter<T> insSorter;
 public:
     const BaseGapSequence * sequence;
 
@@ -25,9 +26,7 @@ public:
         }
     }
 
-    ShellSorter(int sequenceType) {
-        ShellSorter((GapSequence) sequenceType);
-    }
+    ShellSorter(int sequenceType): ShellSorter((GapSequence) sequenceType) {}
 
     void sort(SorTable<T> & sorTable) override {
         shellSort(sorTable);
@@ -35,7 +34,6 @@ public:
 
 private:
     void popAndSort (SorTable<T> & tab, int h){
-        InsertionSorter<T> insSorter;
         for (int i = 0; i<h; i++){
             SorTable<T> partial = SorTable<T>((tab.currentSize/h)+1);
 

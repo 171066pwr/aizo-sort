@@ -3,16 +3,17 @@
 
 
 #include "..\SorTable.h"
-#include <ctime>
 #include <random>
 
 #include "BaseGenerator.h"
+#include "../config/GlobalConfig.h"
 
+using namespace Globals;
 
 template <typename T>
 class TableGenerator: protected BaseGenerator {
 public:
-    TableGenerator(bool ascending = true, int percentSorted = 0): BaseGenerator(ascending, percentSorted) {}
+    using BaseGenerator::BaseGenerator;
 
     SorTable<T> * generateTable(int size);
     T getRandom();
@@ -22,6 +23,8 @@ template<>
 class TableGenerator<int>: protected BaseGenerator {
     std::uniform_int_distribution<> distrib;
 public:
+    using BaseGenerator::BaseGenerator;
+
     SorTable<int> * generateTable(int size) {
         distrib = std::uniform_int_distribution<>(-size, size);
         SorTable<int> *generated = new SorTable<int>(size);
@@ -32,7 +35,7 @@ public:
     }
 
     int getRandom() {
-        return distrib(gen);
+        return distrib(MERSENNE_GENERATOR);
     }
 };
 
@@ -40,6 +43,8 @@ template<>
 class TableGenerator<char>: protected BaseGenerator {
     std::uniform_int_distribution<> distrib;
 public:
+    using BaseGenerator::BaseGenerator;
+
     SorTable<char> * generateTable(int size) {
         distrib = std::uniform_int_distribution<>(0, 255);
         SorTable<char> *generated = new SorTable<char>(size);
@@ -50,7 +55,7 @@ public:
     }
 
     char getRandom() {
-        return distrib(gen);
+        return distrib(MERSENNE_GENERATOR);
     }
 };
 
@@ -58,6 +63,8 @@ template<>
 class TableGenerator<double>: protected BaseGenerator {
     std::uniform_real_distribution<> distrib;
 public:
+    using BaseGenerator::BaseGenerator;
+
     SorTable<double> * generateTable(int size) {
         distrib = std::uniform_real_distribution<>(-1.0*size, 1.0*size);
         SorTable<double> *generated = new SorTable<double>(size);
@@ -68,7 +75,7 @@ public:
     }
 
     double getRandom() {
-        return distrib(gen);
+        return distrib(MERSENNE_GENERATOR);
     }
 };
 
@@ -76,6 +83,8 @@ template<>
 class TableGenerator<float>: protected BaseGenerator {
     std::uniform_real_distribution<> distrib;
 public:
+    using BaseGenerator::BaseGenerator;
+
     SorTable<float> * generateTable(int size) {
         distrib = std::uniform_real_distribution<>(-1.0f*size, 1.0f*size);
         SorTable<float> *generated = new SorTable<float>(size);
@@ -86,7 +95,7 @@ public:
     }
 
     float getRandom() {
-        return distrib(gen);
+        return distrib(MERSENNE_GENERATOR);
     }
 };
 

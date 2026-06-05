@@ -5,12 +5,11 @@
 
 class BaseGenerator {
 protected:
-    static std::random_device rd;
-    static std::mt19937 gen;
     int percentSorted;
     bool ascending;
     //seeding the marsenne twister engine
 
+public:
     BaseGenerator(bool ascending = true, int percentSorted = 0): ascending(ascending), percentSorted(percentSorted) {}
 };
 

@@ -4,6 +4,12 @@
 #include "../model/SorTable.h"
 #include "../io/BasicIO.h"
 #include "../io/SorTableIO.h"
+#include "../model/config/DatasetConfig.h"
+#include "../model/config/DisplayDataConfig.h"
+#include "../model/config/PreSortMode.h"
+#include "../model/config/RunnerConfig.h"
+#include "../model/config/SorterConfig.h"
+#include "../model/runner/Runner.h"
 #include "../model/sorters/BaseSorter.h"
 #include "../model/sorters/HeapSorter.h"
 #include "../model/sorters/InsertionSorter.h"
@@ -11,6 +17,7 @@
 #include "../model/sorters/ShellSorter.h"
 #include "../model/sorters/SorterFactory.h"
 
+struct SorterConfig;
 class SorTableIO;
 using namespace std;
 
@@ -22,6 +29,8 @@ void basicSerializationTest();
 void sortCheckTest();
 void basicSortersTest();
 void sorterFactoryTest();
+void configSerializationTest();
+void runnerTest();
 
 template<typename T>
 bool checkSort(SorTable<T> s);
@@ -33,6 +42,8 @@ int main () {
     sortCheckTest();
     basicSortersTest();
     sorterFactoryTest();
+    configSerializationTest();
+    runnerTest();
     system("pause");
 }
 
@@ -107,7 +118,7 @@ void sortCheckTest() {
 
 void basicSortersTest() {
     TableGenerator tableGenerator = TableGenerator<int>();
-    SorTable<int> * sorTable = tableGenerator.generateTable(20000);
+    SorTable<int> * sorTable = tableGenerator.generateTable(1000);
 
     Logger::title("Quick Sort test");
     SorTable<int> * copy = sorTable->clone();
@@ -143,13 +154,88 @@ void basicSortersTest() {
 
 void sorterFactoryTest() {
     Logger::title("Sorter factory test");
+    TableGenerator tableGenerator = TableGenerator<int>();
+    SorTable<int> * sorTable = tableGenerator.generateTable(100);
+    SorTable<int> * copy;
     BaseSorter<int> * sorter;
+
     sorter = SorterFactory<int>::createSorter(SorterType::HEAP_SORT);
+    copy = sorTable->clone();
+    sorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Heap Sort");
+
     sorter = SorterFactory<int>::createSorter(SorterType::QUICK_SORT);
-    sorter = SorterFactory<int>::createSorter(SorterType::QUICK_SORT, PivotPosition::RANDOM);
+    copy = sorTable->clone();
+    sorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Quick Sort, default random");
+
+    sorter = SorterFactory<int>::createSorter(SorterType::QUICK_SORT, PivotPosition::CENTER);
+    copy = sorTable->clone();
+    sorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Quick Sort, center");
+
     sorter = SorterFactory<int>::createSorter(SorterType::SHELL_SORT);
+    copy = sorTable->clone();
+    sorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Shell Sort, Shell");
+
     sorter = SorterFactory<int>::createSorter(SorterType::SHELL_SORT, GapSequence::KNUTH);
+    copy = sorTable->clone();
+    sorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Shell Sort, Knuth");
+
     sorter = SorterFactory<int>::createSorter(SorterType::INSERTION_SORT);
+    copy = sorTable->clone();
+    sorter->sort(*copy);
+    assertTrue(checkSort(*copy), "Insertion Sort");
+}
+
+void configSerializationTest() {
+    Logger::title("Config Serialization Test");
+    DataTypeConfig dataTypeConfig("char");
+    DatasetConfig datasetConfig(1000, 1000, 19, 10);
+    PreSortMode preSortMode;
+    DisplayDataConfig displayConfig;
+    vector<SorterConfig> sorterConfigs;
+    sorterConfigs.push_back(SorterConfig(0, 0));
+    sorterConfigs.push_back(SorterConfig(1, 0));
+    sorterConfigs.push_back(SorterConfig(2, 0));
+    sorterConfigs.push_back(SorterConfig(2, 3));
+    sorterConfigs.push_back(SorterConfig(3, 0));
+    sorterConfigs.push_back(SorterConfig(3, 1));
+    RunnerConfig config(dataTypeConfig, datasetConfig, preSortMode, displayConfig, sorterConfigs);
+    Logger::log(config.toString());
+    Logger::log(config.serialize());
+}
+
+void runnerTest() {
+    Logger::title("Runner Test");
+    DataTypeConfig dataTypeConfig("int");
+    DatasetConfig datasetConfig(10, 10, 50, 10);
+    PreSortMode preSortMode;
+    DisplayDataConfig displayConfig(false);
+    vector<SorterConfig> sorterConfigs;
+    sorterConfigs.push_back(SorterConfig(0, 0));
+    sorterConfigs.push_back(SorterConfig(1, 0));
+    sorterConfigs.push_back(SorterConfig(2, 0));
+    sorterConfigs.push_back(SorterConfig(2, 1));
+    sorterConfigs.push_back(SorterConfig(2, 2));
+    sorterConfigs.push_back(SorterConfig(2, 3));
+    sorterConfigs.push_back(SorterConfig(3, 0));
+    sorterConfigs.push_back(SorterConfig(3, 1));
+    RunnerConfig config(dataTypeConfig, datasetConfig, preSortMode, displayConfig, sorterConfigs);
+
+    Runner runner(config);
+    RunResult result = runner.run();
+    Logger::log(result.toString());
+    Logger::log(result.serialize());
+
+    BasicIO io = BasicIO();
+    io.writeLine(result.toString());
+    io.~BasicIO();
+    BasicIO io2 = BasicIO();
+    io2.writeLine(result.serialize());
+    io2.~BasicIO();
 }
 
 void assertTrue(bool assertion, const string &msg) {

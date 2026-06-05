@@ -8,39 +8,40 @@
 using namespace std;
 
 class BatchResult {
-    typedef long long T;
-    SorTable<T> timetable;
+    typedef long long L;
+    SorTable<L> timetable;
 
-    T getMedian() {
+    L getMedian() {
         if(timetable.currentSize%2 == 1)
             return timetable[timetable.currentSize/2];
         return (timetable[timetable.currentSize/2] + timetable[timetable.currentSize/2 - 1])/2;
     }
 
-    T getAverage() {
-        T sum = 0;
+    L getAverage() {
+        L sum = 0;
         for(int i = 0; i < timetable.currentSize; i++)
             sum += timetable[i];
         return sum/timetable.currentSize;
     }
 
-public:
-    BatchResult(int size): timetable(SorTable<T>(size)) {}
-
-    void addResult(T time) {
-        timetable.add(time);
-    }
-
     void sort() {
-        QuickSorter<T> sorter = QuickSorter<T>();
+        QuickSorter<L> sorter = QuickSorter<L>();
         sorter.sort(timetable);
     }
 
-    Summary getSummary() {
-        T min = timetable[0];
-        T max = timetable[timetable.currentSize-1];
-        T avg = getAverage();
-        T med = getMedian();
+public:
+    BatchResult(int size): timetable(SorTable<L>(size)) {}
+
+    void addResult(L time) {
+        timetable.add(time);
+    }
+
+    Summary compileSummary() {
+        sort();
+        L min = timetable[0]/1000;
+        L max = timetable[timetable.currentSize-1]/1000;
+        L avg = getAverage()/1000;
+        L med = getMedian()/1000;
         return Summary(min, max, avg, med);
     }
 };

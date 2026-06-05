@@ -97,3 +97,4 @@ template class SorTable<int>;
 template class SorTable<char>;
 template class SorTable<float>;
 template class SorTable<double>;
+template class SorTable<long long>;

@@ -3,12 +3,24 @@
 
 #include <iostream>
 
+#include "../model/config/GlobalConfig.h"
+
 using namespace std;
+using namespace Globals;
 
 class Logger {
 public:
     static inline void log(string s) {
         cout << s << endl;
+    }
+
+    static inline void logInline(string s) {
+        cout << s;
+    }
+
+    static inline void conditional(string s) {
+        if(Globals::DISPLAY_LOG)
+            cout << s << endl;
     }
 
     static void logWithColor(const string &s, const string &color) {

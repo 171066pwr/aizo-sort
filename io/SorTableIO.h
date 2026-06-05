@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include "../model/SorTable.h"
-#include "../model/DataType.h"
+#include "../model/config/DataTypeConfig.h"
 #include "BasicIO.h"
 #include "InvalidFileException.h"
 
