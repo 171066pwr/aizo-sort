@@ -1,6 +1,6 @@
 #ifndef BASESORTER_H
 #define BASESORTER_H
-#include "..\SorTable.h"
+#include "../SorTable.h"
 
 
 template <typename T>

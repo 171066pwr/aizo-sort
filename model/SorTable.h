@@ -9,8 +9,7 @@
 using namespace std;
 
 template <typename T>
-class SorTable: Table,  public virtual Serializable, public virtual Printable  {
-public:
+struct SorTable: Table,  public virtual Serializable, public virtual Printable  {
     typedef T baseType;
     T value;
     T * const array;

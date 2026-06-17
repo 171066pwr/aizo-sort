@@ -2,11 +2,12 @@
 #define TABLEGENERATOR_H
 
 
-#include "..\SorTable.h"
 #include <random>
 
 #include "BaseGenerator.h"
 #include "../config/GlobalConfig.h"
+#include "../SorTable.h"
+#include "../sorters/QuickSorter.h"
 
 using namespace Globals;
 
@@ -21,81 +22,81 @@ public:
 
 template<>
 class TableGenerator<int>: protected BaseGenerator {
-    std::uniform_int_distribution<> distrib;
+    std::uniform_int_distribution<> distribution;
 public:
     using BaseGenerator::BaseGenerator;
 
     SorTable<int> * generateTable(int size) {
-        distrib = std::uniform_int_distribution<>(-size, size);
+        distribution = std::uniform_int_distribution<>(-size, size);
         SorTable<int> *generated = new SorTable<int>(size);
         for (int i = 0; i < size; i++) {
             generated->add(getRandom());
         }
-        return generated;
+        return preSort(generated);
     }
 
     int getRandom() {
-        return distrib(MERSENNE_GENERATOR);
+        return distribution(MERSENNE_GENERATOR);
     }
 };
 
 template<>
 class TableGenerator<char>: protected BaseGenerator {
-    std::uniform_int_distribution<> distrib;
+    std::uniform_int_distribution<> distribution;
 public:
     using BaseGenerator::BaseGenerator;
 
     SorTable<char> * generateTable(int size) {
-        distrib = std::uniform_int_distribution<>(0, 255);
+        distribution = std::uniform_int_distribution<>(33, 254); //mostly visible ASCII characters, except for 127 DEL
         SorTable<char> *generated = new SorTable<char>(size);
         for (int i = 0; i < size; i++) {
             generated->add(getRandom());
         }
-        return generated;
+        return preSort(generated);
     }
 
     char getRandom() {
-        return distrib(MERSENNE_GENERATOR);
+        return distribution(MERSENNE_GENERATOR);
     }
 };
 
 template<>
 class TableGenerator<double>: protected BaseGenerator {
-    std::uniform_real_distribution<> distrib;
+    std::uniform_real_distribution<> distribution;
 public:
     using BaseGenerator::BaseGenerator;
 
     SorTable<double> * generateTable(int size) {
-        distrib = std::uniform_real_distribution<>(-1.0*size, 1.0*size);
+        distribution = std::uniform_real_distribution<>(-1.0*size, 1.0*size);
         SorTable<double> *generated = new SorTable<double>(size);
         for (int i = 0; i < size; i++) {
             generated->add(getRandom());
         }
-        return generated;
+        return preSort(generated);
     }
 
     double getRandom() {
-        return distrib(MERSENNE_GENERATOR);
+        return distribution(MERSENNE_GENERATOR);
     }
 };
 
 template<>
 class TableGenerator<float>: protected BaseGenerator {
-    std::uniform_real_distribution<> distrib;
+    std::uniform_real_distribution<> distribution;
 public:
     using BaseGenerator::BaseGenerator;
 
     SorTable<float> * generateTable(int size) {
-        distrib = std::uniform_real_distribution<>(-1.0f*size, 1.0f*size);
+        distribution = std::uniform_real_distribution<>(-1.0f*size, 1.0f*size);
         SorTable<float> *generated = new SorTable<float>(size);
         for (int i = 0; i < size; i++) {
             generated->add(getRandom());
         }
-        return generated;
+        return preSort(generated);
     }
 
     float getRandom() {
-        return distrib(MERSENNE_GENERATOR);
+        return distribution(MERSENNE_GENERATOR);
     }
 };
 

@@ -33,6 +33,7 @@ void sorterFactoryTest();
 void configSerializationTest();
 void runWithGeneratorTest();
 void runForTableTest();
+void preSortTest();
 
 int main () {
     basicIOTest();
@@ -40,11 +41,13 @@ int main () {
     basicSerializationTest();
     deserializationTest();
     sortCheckTest();
+    preSortTest();
     basicSortersTest();
     sorterFactoryTest();
     configSerializationTest();
     runForTableTest();
     runWithGeneratorTest();
+
     system("pause");
 }
 
@@ -296,6 +299,34 @@ void runWithGeneratorTest() {
     BasicIO io2 = BasicIO();
     io2.writeLine(result.serialize());
 }
+
+void preSortTest() {
+    Logger::title("Pre-sorted generation test");
+    TableGenerator tableGenerator = TableGenerator<int>(true, 100);
+    SorTable<int> * sorTable = tableGenerator.generateTable(100);
+    assertTrue(sorTable->checkSort(), "Should be fully pre-sorted");
+
+    tableGenerator = TableGenerator<int>(true, 50);
+    sorTable = tableGenerator.generateTable(20);
+    Logger::log("50% sorted");
+    sorTable->print();
+
+    tableGenerator = TableGenerator<int>(true, 30);
+    sorTable = tableGenerator.generateTable(20);
+    Logger::log("30% sorted");
+    sorTable->print();
+
+    tableGenerator = TableGenerator<int>(false, 100);
+    sorTable = tableGenerator.generateTable(20);
+    Logger::log("Fully descending sorted");
+    sorTable->print();
+
+    tableGenerator = TableGenerator<int>(false, 50);
+    sorTable = tableGenerator.generateTable(20);
+    Logger::log("50% descending sorted");
+    sorTable->print();
+}
+
 
 void assertTrue(bool assertion, const string &msg) {
     if (!assertion) {

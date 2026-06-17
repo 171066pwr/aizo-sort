@@ -49,9 +49,10 @@ bool SorTable<T>::equals(const SorTable<T> *sort) const {
 
 template<typename T>
 void SorTable<T>::add(T value) {
-    if(currentSize < maxSize) {}
-    array[currentSize] = value;
-    currentSize++;
+    if(currentSize < maxSize) {
+        array[currentSize] = value;
+        currentSize++;
+    }
 }
 
 template<typename T>
