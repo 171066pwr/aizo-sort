@@ -2,18 +2,19 @@
 #define RUNRESULT_H
 #include <iostream>
 #include <map>
-#include <ostream>
 #include <vector>
 
 #include "BatchResult.h"
 #include "../config/SorterConfig.h"
-#include "../config/Printable.h"
+#include "../../io/Printable.h"
 #include "../../io/Serializable.h"
 
 
 struct RunResult: public virtual Serializable, public virtual Printable {
     vector<SorterConfig> config;
     vector<std::map<int, BatchResult>> results;
+
+    RunResult(){};
 
     RunResult(const vector<SorterConfig> &config): config(config) {
         for(auto i: config) results.push_back({});

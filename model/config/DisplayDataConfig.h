@@ -10,6 +10,11 @@ struct DisplayDataConfig: public virtual Serializable, public virtual Printable 
 
     DisplayDataConfig(bool display = true): display(display) {};
 
+    static DisplayDataConfig deserialize(const string &s) {
+        if(s.empty() || s[0] != '0') return DisplayDataConfig(true);
+        return DisplayDataConfig(false);
+    }
+
     virtual std::string toString() const override {
         return "Display data: " + std::to_string(display);
     }

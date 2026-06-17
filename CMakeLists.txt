@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(SOURCE_FILES main.cpp
         model/SorTable.cpp
         model/SorTable.h
-        model/generator/TableGenerator.cpp
         model/generator/TableGenerator.h
         utils/NumberUtils.cpp utils/NumberUtils.h utils/Logger.h
         io/BasicIO.cpp
@@ -14,7 +13,6 @@ set(SOURCE_FILES main.cpp
         model/Table.h
         io/InvalidFileException.h
         model/sorters/BaseSorter.h
-        model/runner/SingleResult.h
         model/sorters/QuickSorter.h
         model/sorters/InsertionSorter.h
         model/sorters/HeapSorter.h
@@ -28,27 +26,31 @@ set(SOURCE_FILES main.cpp
         model/config/SorterConfig.h
         model/config/DatasetConfig.h
         model/runner/Summary.h
-        model/runner/BaseRunner.h
-        model/runner/FileRunner.cpp
-        model/runner/FileRunner.h
-        model/runner/SorterArray.h
         model/generator/BaseGenerator.h
         model/runner/RunResult.h
         model/config/DataTypeConfig.h
         io/Serializable.h
-        model/config/Printable.h
+        io/Printable.h
         model/config/DisplayDataConfig.h
         model/config/GlobalConfig.h
+        io/ConfigIO.cpp
+        io/ConfigIO.h
 )
 
 add_executable(1_sort ${SOURCE_FILES})
+
+# Static linking for MinGW/GCC
+if (MINGW)
+    # Static link all libraries
+    target_link_options(${PROJECT_NAME} PRIVATE -static)
+    target_link_options(${PROJECT_NAME} PRIVATE -static -lpthread)
+endif()
 
 project(Tests)
 
 set(TEST_FILES test/MainTest.cpp
         model/SorTable.cpp
         model/SorTable.h
-        model/generator/TableGenerator.cpp
         model/generator/TableGenerator.h
         utils/NumberUtils.cpp utils/NumberUtils.h utils/Logger.h
         io/BasicIO.cpp
@@ -56,7 +58,6 @@ set(TEST_FILES test/MainTest.cpp
         io/SorTableIO.h
         model/Table.h
         model/sorters/BaseSorter.h
-        model/runner/SingleResult.h
         model/sorters/QuickSorter.h
         model/sorters/HeapSorter.h
         model/sorters/ShellSorter.h
@@ -68,17 +69,22 @@ set(TEST_FILES test/MainTest.cpp
         model/config/SorterConfig.h
         model/config/DatasetConfig.h
         model/runner/Summary.h
-        model/runner/BaseRunner.h
-        model/runner/FileRunner.cpp
-        model/runner/FileRunner.h
-        model/runner/SorterArray.h
         model/generator/BaseGenerator.h
         model/runner/RunResult.h
         model/config/DataTypeConfig.h
         io/Serializable.h
-        model/config/Printable.h
+        io/Printable.h
         model/config/DisplayDataConfig.h
         model/config/GlobalConfig.h
+        io/ConfigIO.cpp
+        io/ConfigIO.h
 )
 
 add_executable(Tests ${TEST_FILES})
+
+# Static linking for MinGW/GCC
+if (MINGW)
+    # Static link all libraries
+    target_link_options(${PROJECT_NAME} PRIVATE -static)
+    target_link_options(${PROJECT_NAME} PRIVATE -static -lpthread)
+endif()

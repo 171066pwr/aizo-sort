@@ -21,6 +21,15 @@ BasicIO::~BasicIO() {
     ostream.close();
 }
 
+vector<std::string> BasicIO::readLines() {
+    vector<std::string> lines;
+    string line;
+    while(getline(istream, line)) {
+        lines.push_back(line);
+    }
+    return lines;
+}
+
 std::string BasicIO::readLine() {
     std::string line;
     std::getline (istream, line);
@@ -34,3 +43,13 @@ void BasicIO::writeLine(std::string line) {
 void BasicIO::writeLn() {
     ostream << std::endl;
 }
+
+/*
+*std::string BasicIO::readLines() {
+std::stringstream ss("");
+std::string line;
+while(getline(istream, line))
+ss << line << "\n";
+return ss.str();
+}
+*/

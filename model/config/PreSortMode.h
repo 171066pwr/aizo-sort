@@ -1,7 +1,7 @@
 #ifndef PRESORTCONFIG_H
 #define PRESORTCONFIG_H
 
-#include "Printable.h"
+#include "../../io/Printable.h"
 #include "../../io/Serializable.h"
 
 
@@ -20,6 +20,19 @@ struct PreSortMode: public virtual Serializable, public virtual Printable {
             result += to_string(percentage) + "% pre-sorted";
         }
         return result;
+    }
+
+    static PreSortMode deserialize(const string &line) {
+        if(line.empty())
+            return PreSortMode();
+        string s;
+        stringstream ss(line);
+        std::getline(ss, s, ',');
+        bool asc = (s.empty() || s[0] != '0');
+        s.clear();
+        std::getline(ss, s, ',');
+        int percentage = s.empty() ? 0 : std::stoi(s);
+        return PreSortMode(asc, percentage);
     }
 
     virtual string toString() const override {

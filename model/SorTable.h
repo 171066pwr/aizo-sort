@@ -3,11 +3,13 @@
 #include <string>
 
 #include "Table.h"
+#include "../io/Serializable.h"
+#include "../io/Printable.h"
 
 using namespace std;
 
 template <typename T>
-class SorTable: Table {
+class SorTable: Table,  public virtual Serializable, public virtual Printable  {
 public:
     typedef T baseType;
     T value;
@@ -27,7 +29,8 @@ public:
     void add(T value);
     void reverseOrder();
     string getType() const;
-    string toString() const;
+    virtual string toString() const override;
+    virtual string serialize() const override;
     void print() const;
 
     T const& operator [](std::size_t n) const
@@ -36,6 +39,15 @@ public:
     }
     // similarly for non-const:
     T& operator [](std::size_t n) { return array[n]; }
+
+    // Check table order (asc)
+    bool checkSort() {
+        for (int i = 1; i < currentSize; ++i) {
+            if (array[i-1] > array[i])
+                return false;
+        }
+        return true;
+    }
 
 private:
     void copy(T * tab) const ;

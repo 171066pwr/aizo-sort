@@ -79,6 +79,17 @@ string SorTable<T>::toString() const {
 }
 
 template<typename T>
+string SorTable<T>::serialize() const {
+    std::stringstream ss;
+    ss << getType() << endl;
+    ss << currentSize;
+    for(int i = 0; i < currentSize; i++) {
+        ss << endl << array[i];
+    }
+    return ss.str();
+}
+
+template<typename T>
 void SorTable<T>::print() const {
     for (int i = 0; i < currentSize; i++) {
         std::cout << array[i] << "\t";

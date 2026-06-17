@@ -11,7 +11,7 @@ public:
         this -> message = "Cannot read or parse from file: " + message;
     }
 
-    const char *what() {
+    const char *what() const noexcept override  {
         return message.c_str();
     }
 };

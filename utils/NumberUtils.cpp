@@ -22,6 +22,15 @@ string NumberUtils::toString(int d) {
     return ss.str();
 }
 
+string NumberUtils::nanoToMilis(long long nanoseconds) {
+    ss.setf(std::ios::fixed);
+    setGlobalPrecision(2);
+    clearSS();
+    double nano = static_cast<double>(nanoseconds)/1000000.f;
+    ss << nano << " ms";
+    return ss.str();
+}
+
 void NumberUtils::clearSS() {
     ss.str(std::string());
 }

@@ -1,7 +1,9 @@
 #ifndef SORTERCONFIG_H
 #define SORTERCONFIG_H
 
-#include "Printable.h"
+#include <sstream>
+
+#include "../../io/Printable.h"
 #include "../../io/Serializable.h"
 
 
@@ -17,6 +19,14 @@ struct SorterConfig: public virtual Serializable, public virtual Printable {
         if(type != other.type) return type < other.type;
         if(variant != other.variant) return variant < other.variant;
         return this < &other;
+    }
+
+    static SorterConfig deserialize(const string &line) {
+        string sorter, variant;
+        stringstream ss(line);
+        std::getline(ss, sorter, ',');
+        std::getline(ss, variant, ',');
+        return SorterConfig(std::stoi(sorter), variant.empty() ? 0 : std::stoi(variant));
     }
 
     virtual string toString() const override {
@@ -48,7 +58,7 @@ struct SorterConfig: public virtual Serializable, public virtual Printable {
     }
 
     virtual string serialize() const override {
-        return "{" + to_string(type) + "," + to_string(variant) + "}";
+        return to_string(type) + "," + to_string(variant);
     }
 };
 

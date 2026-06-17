@@ -16,6 +16,7 @@ public:
     NumberUtils();
     static string toString(double d);
     static string toString(int d);
+    static string nanoToMilis(long long nanoseconds);
     static void setGlobalPrecision(int precision);
     static void setGlobalEpsilon(double epsilon);
     static bool doubleEquals(double a, double b);

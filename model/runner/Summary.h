@@ -1,7 +1,7 @@
 #ifndef SUMMARY_H
 #define SUMMARY_H
 
-#include "../config/Printable.h"
+#include "../../io/Printable.h"
 #include "../../io/Serializable.h"
 
 

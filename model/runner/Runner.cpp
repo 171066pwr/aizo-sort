@@ -1,77 +1,50 @@
 #include "Runner.h"
 
 #include <chrono>
-#include <iostream>
 #include <vector>
 
+#include "../config/RunnerConfig.h"
 #include "../generator/TableGenerator.h"
 #include "../sorters/SorterFactory.h"
 #include "RunResult.h"
 #include "../../utils/Logger.h"
+#include "../../utils/NumberUtils.h"
 
-
-Runner::Runner(RunnerConfig config): config(config) {}
-
-RunResult Runner::run() {
-    //Set global conditional display option, responsible for displaying generated/loaded data
-    Globals::DISPLAY_LOG = config.displayData.display;
-
-    switch(config.dataTypeConfig.dataType) {
-        case DataType::CHAR:
-            return runForType<char>();
-        case DataType::FLOAT:
-            return runForType<float>();
-        case DataType::DOUBLE:
-            return runForType<double>();
-        case DataType::INT:
-        default:
-            return runForType<int>();
-    }
-}
-/*
-for (auto &attack : m_attack) // access by reference to avoid copying
-{
-    if (attack.m_num == input)
-    {
-        attack.makeDamage();
-    }
-}
- */
 
 template<typename T>
-RunResult Runner::runForType() {
-    int sortersSize = config.sorterConfigs.size();
-    BaseSorter<T>** sorters = new BaseSorter<T>*[sortersSize];
-    RunResult results(config.sorterConfigs);
-    for(int i = 0; i < sortersSize; i++) {
-        sorters[i] = SorterFactory<T>::createSorter(config.sorterConfigs[i].type, config.sorterConfigs[i].variant);
-    }
-    int currentSize = config.datasetConfig.initialSize;
-    int step = config.datasetConfig.steps;
-    int increment = config.datasetConfig.increment;
-    int samples = config.datasetConfig.samples;
-    TableGenerator<T> generator(config.preSortMode.ascending, config.preSortMode.percentage);
-    do {
-        results.initBathIteration(currentSize, samples);
+RunResult Runner::runForGenerated() {
+    BaseSorter<T>** sorters = createSorters<T>();
+    RunResult results(config->sorterConfigs);
 
-        for(int i = 0; i < samples; i++) {
-            Logger::log("Size: " + std::to_string(currentSize) + "\tsample " + std::to_string(i));
+    int sortersSize = config->sorterConfigs.size();
+    int currentSize = config->datasetConfig.initialSize;
+    int step = config->datasetConfig.steps;
+    int increment = config->datasetConfig.increment;
+    int samples = config->datasetConfig.samples;
+    TableGenerator<T> generator(config->preSortMode.ascending, config->preSortMode.percentage); // initialize generator
+    do {
+        results.initBathIteration(currentSize, samples);        // initialize empty row in results map
+        for(int j = 0; j < samples; j++) {
+            Logger::log("Size: " + std::to_string(currentSize) + "\tsample " + std::to_string(j));
             SorTable<T> *table = generator.generateTable(currentSize);
-            SorTable<T> *copy;
             Logger::conditional("-> Generated table:\n" + table->toString());
 
             for(int i = 0; i < sortersSize; i++) {
-                Logger::logInline(config.sorterConfigs[i].toString());
-                copy = table->clone();
+                Logger::logInline(config->sorterConfigs[i].toString());
+                SorTable<T> *copy = table->clone();
                 //TIME START
                 auto start = std::chrono::steady_clock::now();
                 sorters[i]->sort(*copy);
                 auto end = std::chrono::steady_clock::now();
-                auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
                 //TIME STOP
+                auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
                 results.addResult(i, currentSize, time);
+
                 Logger::conditional("-> Sorted table:\n" + copy->toString());
-                Logger::log("\t" + to_string(time/1000000.f));
+                Logger::log("\t" + NumberUtils::nanoToMilis(time));
+                //Sort validation
+                if(!copy->checkSort())
+                    Logger::warn("################ FAILED TO SORT!!! ################");
                 delete copy;
             }
             delete table;
@@ -81,3 +54,62 @@ RunResult Runner::runForType() {
     } while (step >= 0);
     return results;
 }
+
+template<typename T>
+RunResult Runner::runForTable(SorTable<T> * sorTable) {
+    int sortersSize = config->sorterConfigs.size();
+    BaseSorter<T>** sorters = createSorters<T>();
+    RunResult results(config->sorterConfigs);
+
+    int currentSize = sorTable->currentSize;
+    int samples = config->datasetConfig.samples;
+    results.initBathIteration(currentSize, samples);        // initialize empty row in results map
+    Logger::conditional("-> Loaded table:\n" + sorTable->toString());
+    Logger::log("Size: " + std::to_string(currentSize));
+
+    for(int j = 0; j < sortersSize; j++) {
+        Logger::log(config->sorterConfigs[j].toString());
+        for(int i = 0; i < samples; i++) {
+            Logger::logInline("sample " + std::to_string(i) + "\t");
+            SorTable<T> *copy = sorTable->clone();
+            //TIME START
+            auto start = std::chrono::steady_clock::now();
+            sorters[j]->sort(*copy);
+            auto end = std::chrono::steady_clock::now();
+            //TIME STOP
+            auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+            results.addResult(j, currentSize, time);
+
+            Logger::conditional("-> Sorted table:\n" + copy->toString());
+            Logger::log("\t" + NumberUtils::nanoToMilis(time));
+            //Sort validation
+            if(!copy->checkSort())
+                Logger::warn("################ FAILED TO SORT!!! ################");
+            delete copy;
+        }
+    }
+    return results;
+}
+
+template<typename T>
+BaseSorter<T>** Runner::createSorters() {
+    int sortersSize = config->sorterConfigs.size();
+    BaseSorter<T>** sorters = new BaseSorter<T>*[sortersSize];
+    RunResult results(config->sorterConfigs);
+    for(int i = 0; i < sortersSize; i++) {
+        sorters[i] = SorterFactory<T>::createSorter(config->sorterConfigs[i].type, config->sorterConfigs[i].variant);
+    }
+    return sorters;
+}
+
+// It shouldn't require explicit instantiation, especially runForGenerated.
+// I really don't get templates sometimes...
+template RunResult Runner::runForTable<int>(SorTable<int> * sorTable);
+template RunResult Runner::runForTable<char>(SorTable<char> * sorTable);
+template RunResult Runner::runForTable<float>(SorTable<float> * sorTable);
+template RunResult Runner::runForTable<double>(SorTable<double> * sorTable);
+
+template RunResult Runner::runForGenerated<int>();
+template RunResult Runner::runForGenerated<char>();
+template RunResult Runner::runForGenerated<float>();
+template RunResult Runner::runForGenerated<double>();

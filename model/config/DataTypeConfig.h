@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Printable.h"
+#include "../../io/Printable.h"
 #include "../../io/Serializable.h"
 
 
@@ -19,13 +19,14 @@ struct DataTypeConfig: public virtual Serializable, public virtual Printable {
     DataType dataType;
 
     DataTypeConfig(DataType dataType): dataType(dataType) {}
-    DataTypeConfig(string dataType): dataType(fromString(dataType)) {}
+    DataTypeConfig(string dataType): dataType(deserialize(dataType)) {}
 
-    static DataType fromString(string s) {
+    static DataType deserialize(const string &s) {
         if(s == "char") return CHAR;
         if(s == "float") return FLOAT;
         if(s == "double") return DOUBLE;
-        return INT;
+        if(s == "int") return INT;
+        return UNSUPPORTED;
     }
 
     virtual string toString() const override {

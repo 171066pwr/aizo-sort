@@ -1,23 +1,23 @@
 #ifndef RUNNER_H
 #define RUNNER_H
+#include "RunResult.h"
 
 
-#include <map>
+struct RunnerConfig;
 
-#include "BaseRunner.h"
-#include "../config/RunnerConfig.h"
+class Runner {
+    RunnerConfig * config;
 
-
-class Runner: public BaseRunner {
     template<typename T>
-    RunResult runForType();
-
-protected:
-    RunnerConfig config;
-
+    BaseSorter<T>** createSorters();
 public:
-    Runner(RunnerConfig config);
-    RunResult run() override;
+    Runner(RunnerConfig * config): config(config) {};
+
+    template<typename T>
+    RunResult runForGenerated();
+
+    template<typename T>
+    RunResult runForTable(SorTable<T> * sorTable);
 };
 
 

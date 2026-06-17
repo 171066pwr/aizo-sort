@@ -4,7 +4,7 @@
 #include "../model/SorTable.h"
 #include "../io/BasicIO.h"
 #include "../io/SorTableIO.h"
-#include "../model/config/DatasetConfig.h"
+#include "../model/config/DataSetConfig.h"
 #include "../model/config/DisplayDataConfig.h"
 #include "../model/config/PreSortMode.h"
 #include "../model/config/RunnerConfig.h"
@@ -26,24 +26,25 @@ void assertTrue(bool assertion, const string &msg);
 void basicIOTest();
 void basicModelTest();
 void basicSerializationTest();
+void deserializationTest();
 void sortCheckTest();
 void basicSortersTest();
 void sorterFactoryTest();
 void configSerializationTest();
-void runnerTest();
-
-template<typename T>
-bool checkSort(SorTable<T> s);
+void runWithGeneratorTest();
+void runForTableTest();
 
 int main () {
     basicIOTest();
     basicModelTest();
     basicSerializationTest();
+    deserializationTest();
     sortCheckTest();
     basicSortersTest();
     sorterFactoryTest();
     configSerializationTest();
-    runnerTest();
+    runForTableTest();
+    runWithGeneratorTest();
     system("pause");
 }
 
@@ -58,7 +59,6 @@ void basicIOTest() {
     line = io.readLine();
     Logger::log(line);
     assertTrue(line == "2", "line == 2");
-    io.~BasicIO();
 }
 
 void basicModelTest() {
@@ -93,11 +93,44 @@ void basicSerializationTest() {
     SorTableIO io;
     io.saveToFile("itable.txt", *iTable);
     io.saveToFile("dtable.txt", *dTable);
-    SorTable<int> iRead = io.readFromFile<int>("itable.txt");
-    SorTable<double> dRead = io.readFromFile<double>("dtable.txt");
-    assertTrue(iTable->equals(&iRead), "iTable == iRead");
+    SorTable<int> * iRead = io.readFromFile<int>("itable.txt");
+    SorTable<double> * dRead = io.readFromFile<double>("dtable.txt");
+    assertTrue(iTable->equals(iRead), "iTable == iRead");
     //direct comparison would likely fail due to precision loss, so comparing string representation
-    assertTrue(dTable->toString() == dRead.toString(), "dTable == dRead");
+    assertTrue(dTable->toString() == dRead->toString(), "dTable == dRead");
+}
+
+void deserializationTest() {
+    Logger::title("Deserialization test");
+    Logger::title("Config mode 2");
+
+    stringstream ss = stringstream();
+    ss << "OUTPUT_FILE:kopytko.txt\n";
+    ss << "DATA_TYPE:char\n";
+    ss << "DATA_SET:100,10,9,20\n";
+    ss << "PRE_SORT:1,0\n";
+    ss << "DISPLAY_DATA:1\n";
+    ss << "SORTERS:" << "0,0#1,0#2,3";
+    vector<string> lines;
+    string s;
+    while(std::getline(ss, s))
+        lines.push_back(s);
+    RunnerConfig * config = RunnerConfig::deserialize(&lines);
+    Logger::log(config->toString());
+
+    Logger::title("Config mode 1");
+
+    ss.clear();
+    ss << "INPUT_FILE:kopytko.txt\n";
+    ss << "DATA_SET:20\n";
+    ss << "PRE_SORT:0,66\n";
+    ss << "DISPLAY_DATA:0\n";
+    ss << "SORTERS:" << "0,0#1,0#2,3#3,1";
+    lines.clear();
+    while(std::getline(ss, s))
+        lines.push_back(s);
+    config = RunnerConfig::deserialize(&lines);
+    Logger::log(config->toString());
 }
 
 void sortCheckTest() {
@@ -106,13 +139,13 @@ void sortCheckTest() {
     char equalArray[] = {'a', 'a', 'a', 'a'};
     char unsortedArray[] = {'a', 'b', 'd', 'c'};
     SorTable<char> * cTable = new SorTable<char>(4, sortedArray);
-    assertTrue(checkSort(*cTable), "sorted array");
+    assertTrue(cTable->checkSort(), "sorted array");
     delete cTable;
     cTable = new SorTable<char>(4, equalArray);
-    assertTrue(checkSort(*cTable), "array  of equal elements");
+    assertTrue(cTable->checkSort(), "array  of equal elements");
     delete cTable;
     cTable = new SorTable<char>(4, unsortedArray);
-    assertTrue(!checkSort(*cTable), "unsorted array");
+    assertTrue(!cTable->checkSort(), "unsorted array");
     delete cTable;
 }
 
@@ -125,13 +158,13 @@ void basicSortersTest() {
     QuickSorter<int> qs = QuickSorter<int>(PivotPosition::RANDOM);
     BaseSorter<int> * bsorter = &qs;
     bsorter->sort(*copy);                // just checking inheritance
-    assertTrue(checkSort(*copy), "QuickSort sorted array");
+    assertTrue(copy->checkSort(), "QuickSort sorted array");
     SorTable<int> * sorted = copy->clone();
 
     Logger::title("Heap Sort test");
     copy = sorTable->clone();
     HeapSorter<int>().sort(*copy);
-    assertTrue(checkSort(*copy), "Heap sorted array");
+    assertTrue(copy->checkSort(), "Heap sorted array");
     assertTrue(copy->equals(sorted), "Heap sort data validation");
     sorted = copy->clone();
 
@@ -139,7 +172,7 @@ void basicSortersTest() {
     copy = sorTable->clone();
     ShellSorter<int> ss = ShellSorter<int>(GapSequence::KNUTH);
     ss.sort(*copy);
-    assertTrue(checkSort(*copy), "Shell sorted array");
+    assertTrue(copy->checkSort(), "Shell sorted array");
     assertTrue(copy->equals(sorted), "Shell sort data validation");
     sorted = copy->clone();
 
@@ -148,7 +181,7 @@ void basicSortersTest() {
     InsertionSorter<int> is = InsertionSorter<int>();
     bsorter = &is;
     bsorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Insertion sorted array");
+    assertTrue(copy->checkSort(), "Insertion sorted array");
     assertTrue(copy->equals(sorted), "Insertion sort data validation");
 }
 
@@ -162,38 +195,38 @@ void sorterFactoryTest() {
     sorter = SorterFactory<int>::createSorter(SorterType::HEAP_SORT);
     copy = sorTable->clone();
     sorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Heap Sort");
+    assertTrue(copy->checkSort(), "Heap Sort");
 
     sorter = SorterFactory<int>::createSorter(SorterType::QUICK_SORT);
     copy = sorTable->clone();
     sorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Quick Sort, default random");
+    assertTrue(copy->checkSort(), "Quick Sort, default random");
 
     sorter = SorterFactory<int>::createSorter(SorterType::QUICK_SORT, PivotPosition::CENTER);
     copy = sorTable->clone();
     sorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Quick Sort, center");
+    assertTrue(copy->checkSort(), "Quick Sort, center");
 
     sorter = SorterFactory<int>::createSorter(SorterType::SHELL_SORT);
     copy = sorTable->clone();
     sorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Shell Sort, Shell");
+    assertTrue(copy->checkSort(), "Shell Sort, Shell");
 
     sorter = SorterFactory<int>::createSorter(SorterType::SHELL_SORT, GapSequence::KNUTH);
     copy = sorTable->clone();
     sorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Shell Sort, Knuth");
+    assertTrue(copy->checkSort(), "Shell Sort, Knuth");
 
     sorter = SorterFactory<int>::createSorter(SorterType::INSERTION_SORT);
     copy = sorTable->clone();
     sorter->sort(*copy);
-    assertTrue(checkSort(*copy), "Insertion Sort");
+    assertTrue(copy->checkSort(), "Insertion Sort");
 }
 
 void configSerializationTest() {
     Logger::title("Config Serialization Test");
     DataTypeConfig dataTypeConfig("char");
-    DatasetConfig datasetConfig(1000, 1000, 19, 10);
+    DataSetConfig datasetConfig(100, 100, 5, 5);
     PreSortMode preSortMode;
     DisplayDataConfig displayConfig;
     vector<SorterConfig> sorterConfigs;
@@ -208,10 +241,38 @@ void configSerializationTest() {
     Logger::log(config.serialize());
 }
 
-void runnerTest() {
-    Logger::title("Runner Test");
+void runForTableTest() {
+    Logger::title("Runner input table test");
+    TableGenerator tableGenerator = TableGenerator<int>();
+    SorTable<int> * sorTable = tableGenerator.generateTable(200);
+
     DataTypeConfig dataTypeConfig("int");
-    DatasetConfig datasetConfig(10, 10, 50, 10);
+    DataSetConfig datasetConfig(20);
+    PreSortMode preSortMode;
+    DisplayDataConfig displayConfig(false);
+    vector<SorterConfig> sorterConfigs;
+    sorterConfigs.push_back(SorterConfig(0, 0));
+    sorterConfigs.push_back(SorterConfig(2, 0));
+    sorterConfigs.push_back(SorterConfig(2, 1));
+    sorterConfigs.push_back(SorterConfig(2, 2));
+    sorterConfigs.push_back(SorterConfig(2, 3));
+    RunnerConfig config(dataTypeConfig, datasetConfig, preSortMode, displayConfig, sorterConfigs);
+
+    Runner runner(&config);
+    RunResult result = runner.runForTable<int>(sorTable);
+    Logger::log(result.toString());
+    Logger::log(result.serialize());
+
+    BasicIO io = BasicIO();
+    io.writeLine(result.toString());
+    BasicIO io2 = BasicIO();
+    io2.writeLine(result.serialize());
+}
+
+void runWithGeneratorTest() {
+    Logger::title("Runner with generator test");
+    DataTypeConfig dataTypeConfig("int");
+    DataSetConfig datasetConfig(100, 100, 9, 10);
     PreSortMode preSortMode;
     DisplayDataConfig displayConfig(false);
     vector<SorterConfig> sorterConfigs;
@@ -225,30 +286,19 @@ void runnerTest() {
     sorterConfigs.push_back(SorterConfig(3, 1));
     RunnerConfig config(dataTypeConfig, datasetConfig, preSortMode, displayConfig, sorterConfigs);
 
-    Runner runner(config);
-    RunResult result = runner.run();
+    Runner runner(&config);
+    RunResult result = runner.runForGenerated<int>();
     Logger::log(result.toString());
     Logger::log(result.serialize());
 
     BasicIO io = BasicIO();
     io.writeLine(result.toString());
-    io.~BasicIO();
     BasicIO io2 = BasicIO();
     io2.writeLine(result.serialize());
-    io2.~BasicIO();
 }
 
 void assertTrue(bool assertion, const string &msg) {
     if (!assertion) {
         Logger::warn("Assertion failed: " + msg);
     }
-}
-
-template<typename T>
-bool checkSort(SorTable<T> s) {
-    for (int i = 1; i < s.currentSize; ++i) {
-        if (s[i-1] > s[i])
-            return false;
-    }
-    return true;
 }
