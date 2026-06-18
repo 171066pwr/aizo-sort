@@ -7,7 +7,6 @@
 #include "model/runner/Runner.h"
 #include "model/runner/RunResult.h"
 
-
 int main(int argc, char* argv[]) {
     std::string configFile;
     if(argc < 2) {

@@ -46,6 +46,21 @@ if (MINGW)
     target_link_options(${PROJECT_NAME} PRIVATE -static -lpthread)
 endif()
 
+# Increase stack size to 16MBs
+if(MSVC)
+    # MSVC: /STACK:size (size in bytes)
+    # 16 MB = 16 * 1024 * 1024 = 16777216
+    target_link_options(${PROJECT_NAME} PRIVATE "/STACK:16777216")
+
+elseif(MINGW OR MSYS OR CYGWIN)
+    # MinGW/GCC: -Wl,--stack,size (size in bytes)
+    target_link_options(${PROJECT_NAME} PRIVATE "-Wl,--stack,16777216")
+
+elseif(UNIX AND NOT APPLE)
+    # Linux: -Wl,-z,stack-size=size (size in bytes)
+    target_link_options(${PROJECT_NAME} PRIVATE "-Wl,-z,stack-size=16777216")
+endif()
+
 project(Tests)
 
 set(TEST_FILES test/MainTest.cpp

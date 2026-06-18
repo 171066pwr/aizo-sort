@@ -72,7 +72,7 @@ SorterName2 - variant
 
 Run result:
 {x,y}SortName - variant:            //x - sort type enum, y - sort variant enum
-data_size,average,median,min,max    //comma-separated columns of time results for array size
+data_size,average,median,min,max    //comma-separated columns of time results for array size, in [s*10^-6]
 data_size,average,median,min,max
 ...
 {x,y}SortName - variant:            //next sorter with results

@@ -51,7 +51,11 @@ private:
     void shellSort(SorTable<T> & tab){
         int gap = sequence->getInitialGap(tab.currentSize);
         while (gap>0) {
-            popAndSort(tab, gap);
+            for (int i = gap; i<tab.currentSize; i++) {
+                for (int j = i; j >= gap && tab[j] < tab[j-gap]; j -= gap) {
+                    swap(tab[j], tab[j-gap]);
+                }
+            }
             gap = sequence->getNextGap(gap);
         }
     }
@@ -68,9 +72,8 @@ private:
         public:
         int getInitialGap(int size) const override {
             int gap = 1;
-            while (gap < size)
+            while (gap < size/3)
                 gap = gap*3 + 1;
-            gap /= 9;
             return gap < 1 ? 1 : gap;
         }
 

@@ -13,7 +13,8 @@ template <typename T>
 class QuickSorter: public BaseSorter<T> {
     class BasePivotProvider;
 public:
-const BasePivotProvider * pivotProvider;
+    const BasePivotProvider * pivotProvider;
+
     QuickSorter(PivotPosition pivotPosition = RANDOM) {
         switch(pivotPosition) {
             case LOW:
