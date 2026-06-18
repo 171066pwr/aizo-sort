@@ -20,7 +20,7 @@ void ConfigIO::readRunnerConfig() {
     }
 }
 
-void ConfigIO::writeRunnerConfig(string filename) {
+void ConfigIO::writeRunnerConfig(const string& filename) {
     BasicIO io(filename);
     io.writeLine(runnerConfig->serialize());
 }

@@ -9,7 +9,7 @@ class ConfigIO: public BasicIO {
     void readRunnerConfig();
 
 public:
-    ConfigIO(string filename): BasicIO(filename, false) {
+    ConfigIO(const string& filename): BasicIO(filename, false) {
         readRunnerConfig();
     }
 
@@ -17,7 +17,7 @@ public:
         return runnerConfig;
     };
 
-    void writeRunnerConfig(string filename);
+    void writeRunnerConfig(const string& filename);
 };
 
 

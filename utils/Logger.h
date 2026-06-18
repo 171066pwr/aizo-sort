@@ -10,20 +10,20 @@ using namespace Globals;
 
 class Logger {
 public:
-    static inline void log(string s) {
+    static inline void log(const string& s) {
         cout << s << endl;
     }
 
-    static inline void logInline(string s) {
+    static inline void logInline(const string& s) {
         cout << s;
     }
 
-    static inline void logProgress(string s) {
+    static inline void logProgress(const string& s) {
         if(Globals::DISPLAY_LOG >= Globals::PROGRESS)
             cout << s << endl;
     }
 
-    static inline void logData(string s) {
+    static inline void logData(const string& s) {
         if(Globals::DISPLAY_LOG >= Globals::DATA)
             cout << s << endl;
     }

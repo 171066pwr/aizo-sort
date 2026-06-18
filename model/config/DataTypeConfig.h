@@ -19,7 +19,7 @@ struct DataTypeConfig: public virtual Serializable, public virtual Printable {
     DataType dataType;
 
     DataTypeConfig(DataType dataType): dataType(dataType) {}
-    DataTypeConfig(string dataType): dataType(deserialize(dataType)) {}
+    DataTypeConfig(const string& dataType): dataType(deserialize(dataType)) {}
 
     static DataType deserialize(const string &s) {
         if(s == "char") return CHAR;

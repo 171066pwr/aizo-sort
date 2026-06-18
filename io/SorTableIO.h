@@ -9,7 +9,7 @@
 #include "InvalidFileException.h"
 
 struct SorTableIO {
-    static DataType parseType(string filename) {
+    static DataType parseType(const string &filename) {
         try{
             DataType type;
             BasicIO io(filename);
@@ -33,7 +33,7 @@ struct SorTableIO {
         }
     }
 
-    static int parseSize(string filename) {
+    static int parseSize(const string &filename) {
         try{
             DataType type;
             BasicIO io(filename);
@@ -48,13 +48,13 @@ struct SorTableIO {
     }
 
     template<typename T>
-    static void saveToFile(string filename, SorTable<T> sortable) {
+    static void saveToFile(const string& filename, SorTable<T> sortable) {
         BasicIO io(filename, true);
         io.writeLine(sortable.serialize());
     }
 
     template<typename T>
-    static SorTable<T> * readFromFile(string filename) {
+    static SorTable<T> * readFromFile(const string& filename) {
         try {
             BasicIO io(filename);
             string line = io.readLine();

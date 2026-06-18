@@ -7,7 +7,7 @@ class InvalidFileException : public std::exception {
 private: string message;
 
 public:
-    InvalidFileException(string message = "Cannot read or parse from file") {
+    InvalidFileException(const string& message = "Cannot read or parse from file") {
         this -> message = "Cannot read or parse from file: " + message;
     }
 
