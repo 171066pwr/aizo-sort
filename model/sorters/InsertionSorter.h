@@ -7,37 +7,28 @@ template <typename T>
 class InsertionSorter: public BaseSorter<T> {
 public:
     void sort(SorTable<T> & sorTable) override {
-        for(int i = 0; i < sorTable.currentSize; i++){
-            for(int j = i; j > 0 && sorTable[j] < sorTable[j - 1]; j--) {
-                swap(sorTable[j], sorTable[j - 1]);
+        T temp;
+        for(int i = 1; i < sorTable.currentSize; i++){
+            temp = sorTable[i];
+            int j = i - 1;
+            while (j >= 0 && sorTable[j] > temp) {
+                sorTable[j + 1] = sorTable[j];
+                j--;
             }
+            sorTable[j+1] = temp;
         }
     }
 };
+
 /*
- This variant is slightly better with random and pre-sorted DESC, but starts losing to
- implementation with swap when over 60% is sorted ASC, then completely falls off over 80% sorted.
- So I think swap variant is much better for what Insertion Sort is created.
- It's not going to win at random data with QSort/Heap anyways.
-
+This variant with swap is better at pre-sorted ASD data, but gets ahead only around 80%
+and seems to cap at 40% faster with same O(n) at 100%.
+At the same time it's noticeably slower (over 100%) at random and desc sorted data.
+So just leaving it there as curio.
 void sort(SorTable<T> & sorTable) override {
-        for(int i = 0; i < sorTable.currentSize; i++){
-            int j = 0;
-            while(sorTable[i] > sorTable[j] && j < i){
-                j++;
-            }
-            insert_spec(sorTable,j,i);
-        }
-    }
-
-private:
-    void insert_spec (SorTable<T> & tab, int dest, int src){
-        T temp = tab[src];
-        for(int i = src; i> dest; i--){
-            tab[i] = tab[i-1];
-        }
-        tab[dest] = temp;
-    }
+    for(int i = 0; i < sorTable.currentSize; i++){
+        for(int j = i; j > 0 && sorTable[j] < sorTable[j - 1]; j--) {
+            swap(sorTable[j], sorTable[j - 1]);
 */
 
 
