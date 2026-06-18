@@ -33,6 +33,20 @@ struct SorTableIO {
         }
     }
 
+    static int parseSize(string filename) {
+        try{
+            DataType type;
+            BasicIO io(filename);
+            string line = io.readLine();
+            char c = line[0];
+            if(c < '1' || c > '9')
+                line = io.readLine();
+            return std::stoi(line);
+        }  catch(...) {
+            throw InvalidFileException(filename);
+        }
+    }
+
     template<typename T>
     static void saveToFile(string filename, SorTable<T> sortable) {
         BasicIO io(filename, true);

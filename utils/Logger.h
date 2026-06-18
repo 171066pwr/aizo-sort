@@ -18,8 +18,13 @@ public:
         cout << s;
     }
 
-    static inline void conditional(string s) {
-        if(Globals::DISPLAY_LOG)
+    static inline void logProgress(string s) {
+        if(Globals::DISPLAY_LOG >= Globals::PROGRESS)
+            cout << s << endl;
+    }
+
+    static inline void logData(string s) {
+        if(Globals::DISPLAY_LOG >= Globals::DATA)
             cout << s << endl;
     }
 

@@ -247,12 +247,12 @@ void configSerializationTest() {
 void runForTableTest() {
     Logger::title("Runner input table test");
     TableGenerator tableGenerator = TableGenerator<int>();
-    SorTable<int> * sorTable = tableGenerator.generateTable(200);
+    SorTable<int> * sorTable = tableGenerator.generateTable(20);
 
     DataTypeConfig dataTypeConfig("int");
-    DataSetConfig datasetConfig(20);
+    DataSetConfig datasetConfig(5);
     PreSortMode preSortMode;
-    DisplayDataConfig displayConfig(false);
+    DisplayDataConfig displayConfig(DisplaySetting::DATA);
     vector<SorterConfig> sorterConfigs;
     sorterConfigs.push_back(SorterConfig(0, 0));
     sorterConfigs.push_back(SorterConfig(2, 0));
@@ -275,9 +275,9 @@ void runForTableTest() {
 void runWithGeneratorTest() {
     Logger::title("Runner with generator test");
     DataTypeConfig dataTypeConfig("int");
-    DataSetConfig datasetConfig(100, 100, 9, 10);
+    DataSetConfig datasetConfig(1000, 1000, 9, 10);
     PreSortMode preSortMode;
-    DisplayDataConfig displayConfig(false);
+    DisplayDataConfig displayConfig(DisplaySetting::PROGRESS);
     vector<SorterConfig> sorterConfigs;
     sorterConfigs.push_back(SorterConfig(0, 0));
     sorterConfigs.push_back(SorterConfig(1, 0));
@@ -302,6 +302,7 @@ void runWithGeneratorTest() {
 
 void preSortTest() {
     Logger::title("Pre-sorted generation test");
+    Logger::log("100% ASC sorted");
     TableGenerator tableGenerator = TableGenerator<int>(true, 100);
     SorTable<int> * sorTable = tableGenerator.generateTable(100);
     assertTrue(sorTable->checkSort(), "Should be fully pre-sorted");
@@ -318,7 +319,7 @@ void preSortTest() {
 
     tableGenerator = TableGenerator<int>(false, 100);
     sorTable = tableGenerator.generateTable(20);
-    Logger::log("Fully descending sorted");
+    Logger::log("100% DESC sorted");
     sorTable->print();
 
     tableGenerator = TableGenerator<int>(false, 50);

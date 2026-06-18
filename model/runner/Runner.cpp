@@ -13,6 +13,7 @@
 
 template<typename T>
 RunResult Runner::runForGenerated() {
+    Logger::log("Running for generated data...");
     BaseSorter<T>** sorters = createSorters<T>();
     RunResult results(config->sorterConfigs);
 
@@ -25,12 +26,12 @@ RunResult Runner::runForGenerated() {
     do {
         results.initBathIteration(currentSize, samples);        // initialize empty row in results map
         for(int j = 0; j < samples; j++) {
-            Logger::log("Size: " + std::to_string(currentSize) + "\tsample " + std::to_string(j));
+            Logger::logProgress("Size: " + std::to_string(currentSize) + "\tsample " + std::to_string(j));
             SorTable<T> *table = generator.generateTable(currentSize);
-            Logger::conditional("-> Generated table:\n" + table->toString());
+            Logger::logData("-> Generated table:\n" + table->toString());
 
             for(int i = 0; i < sortersSize; i++) {
-                Logger::logInline(config->sorterConfigs[i].toString());
+                Logger::logProgress(config->sorterConfigs[i].toString());
                 SorTable<T> *copy = table->clone();
                 //TIME START
                 auto start = std::chrono::steady_clock::now();
@@ -40,8 +41,8 @@ RunResult Runner::runForGenerated() {
                 auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
                 results.addResult(i, currentSize, time);
 
-                Logger::conditional("-> Sorted table:\n" + copy->toString());
-                Logger::log("\t" + NumberUtils::nanoToMilis(time));
+                Logger::logData("-> Sorted table:\n" + copy->toString());
+                Logger::logProgress("\t" + NumberUtils::nanoToMilis(time));
                 //Sort validation
                 if(!copy->checkSort())
                     Logger::warn("################ FAILED TO SORT!!! ################");
@@ -57,6 +58,7 @@ RunResult Runner::runForGenerated() {
 
 template<typename T>
 RunResult Runner::runForTable(SorTable<T> * sorTable) {
+    Logger::log("Running for input file...");
     int sortersSize = config->sorterConfigs.size();
     BaseSorter<T>** sorters = createSorters<T>();
     RunResult results(config->sorterConfigs);
@@ -64,7 +66,7 @@ RunResult Runner::runForTable(SorTable<T> * sorTable) {
     int currentSize = sorTable->currentSize;
     int samples = config->datasetConfig.samples;
     results.initBathIteration(currentSize, samples);        // initialize empty row in results map
-    Logger::conditional("-> Loaded table:\n" + sorTable->toString());
+    Logger::logData("-> Loaded table:\n" + sorTable->toString());
     Logger::log("Size: " + std::to_string(currentSize));
 
     for(int j = 0; j < sortersSize; j++) {
@@ -80,7 +82,7 @@ RunResult Runner::runForTable(SorTable<T> * sorTable) {
             auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
             results.addResult(j, currentSize, time);
 
-            Logger::conditional("-> Sorted table:\n" + copy->toString());
+            Logger::logData("-> Sorted table:\n" + copy->toString());
             Logger::log("\t" + NumberUtils::nanoToMilis(time));
             //Sort validation
             if(!copy->checkSort())

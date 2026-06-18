@@ -1,12 +1,13 @@
 
 # 1. Config file
 
-fixed name config.txt
-Works in two modes:
+Unless provided as parameter, program will try default location config.txt
+
+Program works in two modes, based on configuration:
 [1]. Input file
 [2]. Data generation
 
-If INPUT_FILE exists, program will run in mode [1] regardless of other settings.
+If INPUT_FILE value exists, program will run in mode [1] regardless of other settings.
 For working examples please view input_file.conf and data_generation.conf
 
 # 2. Config file structure
@@ -15,7 +16,7 @@ For working examples please view input_file.conf and data_generation.conf
 INPUT_FILE:x            //name of input file; Format of input file in section 4
 OUTPUT_FILE:x           //name of output file
 DATA_SET:samples        //int value. Any extra values will be omitted
-DISPLAY_DATA:bool       //OPTIONAL. Bool: 1 - yes (default), 0 - no; Set to 0 to mute displaying data tables pre and post sort;
+DISPLAY_DATA:bool       //OPTIONAL. int: 0 - no logs displayed, 1 - display progress, 2 - display data (default); Set to 0 to mute displaying data tables pre and post sort;
 SORTERS:x,y#x,y#x       //description of sorter configuration in section 3
 
 # 2.2. Config file structure for mode [2]:
@@ -71,11 +72,11 @@ SorterName2 - variant
 ...
 
 Run result:
-{x,y}SortName - variant:            //x - sort type enum, y - sort variant enum
-data_size,average,median,min,max    //comma-separated columns of time results for array size, in [s*10^-6]
+x,y SortName - variant:            //x - sort type enum, y - sort variant enum
+data_size,average,median,min,max    //comma-separated columns of time results for array size, in [s*10^-6] (microseconds)
 data_size,average,median,min,max
 ...
-{x,y}SortName - variant:            //next sorter with results
+x,y SortName - variant:            //next sorter with results
 data_size,average,median,min,max
 ...
 

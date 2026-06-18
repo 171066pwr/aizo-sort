@@ -6,28 +6,33 @@
 #include "model/config/GlobalConfig.h"
 #include "model/runner/Runner.h"
 #include "model/runner/RunResult.h"
+#include "utils/Logger.h"
 
 int main(int argc, char* argv[]) {
     std::string configFile;
     if(argc < 2) {
         configFile = "config.txt";
-        std::cout << "Config file argument not present, loading default config.txt...";
+        Logger::log("Config file argument not present, loading default config.txt...");
     }
     else {
         configFile = argv[1];
-        std::cout << "Loading config from " << argv[1] << "...";
+        Logger::log("Loading config from " + configFile + "...");
     }
     ConfigIO * configIO = new ConfigIO(configFile);
     RunnerConfig * config = configIO->getRunnerConfig();
     //Set global conditional display option, responsible for displaying generated/loaded data
     Globals::DISPLAY_LOG = config->displayData.display;
+    DataType type = config->dataTypeConfig.dataType;
+    //when running on input data file, parse type and size from data file; else use setting from config
+    bool inputFileMode = config->isInputFileMode();
+    if(inputFileMode) {
+        type = SorTableIO::parseType(config->inputFile);
+        config->datasetConfig.initialSize = SorTableIO::parseSize(config->inputFile);
+    }
+    Logger::log(config->toString());
 
     RunResult results;
     Runner runner(config);
-    //when running on input data file, parse type from data file; else use setting from config
-    bool inputFileMode = config->isInputFileMode();
-    DataType type = inputFileMode ? SorTableIO::parseType(config->inputFile) : config->dataTypeConfig.dataType;
-
     switch(type) {
         case CHAR:
             results = inputFileMode ? runner.runForTable(SorTableIO::readFromFile<char>(config->inputFile))
@@ -46,14 +51,12 @@ int main(int argc, char* argv[]) {
             results = inputFileMode ? runner.runForTable(SorTableIO::readFromFile<int>(config->inputFile))
                 : runner.runForGenerated<int>();
     }
-
-    cout << results.toString() << endl;
+    Logger::log(results.toString());
 
     BasicIO io = BasicIO(config->outputFile);
     io.writeLine(config->toString());
     io.writeLine(results.toString());
-
-    cout << "Results saved to " << config->outputFile << endl;
+    Logger::log("Results saved to " + config->outputFile);
 
     system("pause");
     return 0;

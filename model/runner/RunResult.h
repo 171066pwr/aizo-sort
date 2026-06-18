@@ -44,7 +44,7 @@ struct RunResult: public virtual Serializable, public virtual Printable {
     virtual string serialize() const override {
         string result = "Run result:\n";
         for(int i = 0; i < config.size(); i++) {
-            result += config[i].serialize() + config[i].toString() + ":\n";
+            result += config[i].serialize() + " " + config[i].toString() + ":\n";
             for(auto j: results[i]) {
                 result += to_string(j.first) + "," + j.second.compileSummary().serialize() + "\n";
             }
