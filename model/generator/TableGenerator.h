@@ -7,7 +7,6 @@
 #include "BaseGenerator.h"
 #include "../config/GlobalConfig.h"
 #include "../SorTable.h"
-#include "../sorters/QuickSorter.h"
 
 using namespace Globals;
 

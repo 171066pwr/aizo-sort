@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
     BasicIO io = BasicIO(config->outputFile);
     io.writeLine(config->toString());
-    io.writeLine(results.toString());
+    io.writeLine(results.serialize());
     Logger::log("Results saved to " + config->outputFile);
 
     system("pause");

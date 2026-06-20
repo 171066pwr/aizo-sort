@@ -33,21 +33,10 @@ public:
     }
 
 private:
-    void popAndSort (SorTable<T> & tab, int h){
-        for (int i = 0; i<h; i++){
-            SorTable<T> partial = SorTable<T>((tab.currentSize/h)+1);
-
-            for(int j = 0; j < (tab.currentSize-i)/h; j++){
-                partial.add(tab[j*h+i]);
-            }
-            insSorter.sort(partial);
-
-            for( int j = 0; j<(tab.currentSize-i)/h; j++){
-                tab[j*h+i] = partial[j];
-            }
-        }
-    }
-
+    /*Implementation from Algorithms by Sedgewick & Wayne.
+    / The inner loop is basically insertion operating with gaps.
+    / It utilizes swaps instead of shifting.
+    */
     void shellSort(SorTable<T> & tab){
         int gap = sequence->getInitialGap(tab.currentSize);
         while (gap>0) {

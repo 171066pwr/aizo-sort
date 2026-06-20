@@ -72,12 +72,16 @@ SorterName2 - variant
 ...
 
 Run result:
-x,y SortName - variant:            //x - sort type enum, y - sort variant enum
+SortName - variant
 data_size,average,median,min,max    //comma-separated columns of time results for array size, in [s*10^-6] (microseconds)
 data_size,average,median,min,max
 ...
-x,y SortName - variant:            //next sorter with results
+SortName - variant                  //next sorter with results
 data_size,average,median,min,max
 ...
 
+# 6. Running on selected processor
 
+Use command:
+start /affinity <hex> 1_sort.exe <your_config_file>
+Where <hex> is hex mask of allowed processors: F0 means processors 7-4, FF 0-7, 1 just 0

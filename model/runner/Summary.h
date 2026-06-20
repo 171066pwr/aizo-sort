@@ -15,10 +15,10 @@ typedef long long T;
     Summary(T minimum, T maximum, T average, T median): min(minimum), max(maximum), avg(average), med(median) {}
 
     virtual string toString() const override {
-        string result = "avg: " + to_string(avg) + "\t";
-        result += "med: " + to_string(med) + "\t";
-        result += "min: " + to_string(min) + "\t";
-        result += "max: " + to_string(max);
+        string result = to_string(avg) + "\t";
+        result += to_string(med) + "\t";
+        result += to_string(min) + "\t";
+        result += to_string(max);
         return result;
     }
 
@@ -26,5 +26,6 @@ typedef long long T;
         return  to_string(avg) + "," + to_string(med) + "," + to_string(min) + "," + to_string(max);
     }
 };
+
 
 #endif //SUMMARY_H

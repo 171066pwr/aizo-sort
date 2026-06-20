@@ -45,7 +45,7 @@ RunResult Runner::runForGenerated() {
                 Logger::logProgress("\t" + NumberUtils::nanoToMilis(time));
                 //Sort validation
                 if(!copy->checkSort())
-                    Logger::warn("################ FAILED TO SORT!!! ################");
+                    Logger::warn("################ " + config->sorterConfigs[j].toString() + " FAILED TO SORT!!! ################");
                 delete copy;
             }
             delete table;
@@ -86,7 +86,7 @@ RunResult Runner::runForTable(SorTable<T> * sorTable) {
             Logger::log("\t" + NumberUtils::nanoToMilis(time));
             //Sort validation
             if(!copy->checkSort())
-                Logger::warn("################ FAILED TO SORT!!! ################");
+                Logger::warn("################ " + config->sorterConfigs[j].toString() + " FAILED TO SORT!!! ################");
             delete copy;
         }
     }
