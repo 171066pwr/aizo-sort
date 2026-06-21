@@ -85,3 +85,19 @@ data_size,average,median,min,max
 Use command:
 start /affinity <hex> 1_sort.exe <your_config_file>
 Where <hex> is hex mask of allowed processors: F0 means processors 7-4, FF 0-7, 1 just 0
+
+# 7. Build
+
+Project was written and built using JetBrains CLion. It utilises CMakeLists. Please find config files included with the code.
+
+# 8. Tests
+
+Project has very primitive prosthesis of unit tests, available to be built from CMakeLists as project Tests.
+
+It can be ignored otherwise.
+
+# 9. Utility classes
+
+Project might have some unused utility classess and functions that were either borrowed from other projects or used earlier but ultimately orphaned.
+
+Please ignore them.

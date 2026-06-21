@@ -10,7 +10,6 @@ using namespace std;
 
 template <typename T>
 struct SorTable: Table,  public virtual Serializable, public virtual Printable  {
-    typedef T baseType;
     T value;
     T * const array;
     const int maxSize;
